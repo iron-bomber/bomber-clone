@@ -17,6 +17,24 @@ const bombMap = [
     ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free']
 ];
 
+const bomberLocations = [
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free'],
+    ['free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free'],
+    ['free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free']
+];
+
 class Game {
 
     constructor(){
@@ -28,14 +46,14 @@ class Game {
 
     }
 
-    generateRocks() {
-        for (let i = 0; i < bombMap.length; i++) {
-            for(let j = 0; j < bombMap.length; j++) {
-                if ((j < 2 || j > 17) && (i === 0 || i === 19)
-            }
-        }
+    // generateRocks() {
+    //     for (let i = 0; i < bombMap.length; i++) {
+    //         for(let j = 0; j < bombMap.length; j++) {
+    //             if ((j < 2 || j > 17) && (i === 0 || i === 19)
+    //         }
+    //     }
 
-    }
+    // }
 
     createPlayer(color) {
         this.playerArr.push(new Bomber(color)); 
@@ -46,7 +64,6 @@ class Game {
         let xCoord = 0;
         let yCoord = 0;
         for(let i = 0; i < bombMap.length; i++) {
-            console.log(xCoord, yCoord);
             for (let j = 0; j < bombMap.length; j++) {
                 if (bombMap[i][j] === 'free') {
                     ctx.fillStyle = 'green';
@@ -116,7 +133,9 @@ document.onkeypress = function(e){
     if(e.key === "d"){
         g.playerArr[0].moveRight = true;
     }
-
+    if(e.key === "t"){
+        g.playerArr[0].gridPlacer();
+    }
 }
 
 document.onkeyup = function(e){
