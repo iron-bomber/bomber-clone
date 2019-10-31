@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+}
+
+body{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.whole{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.main-game-container{
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+}
+
+.start-btn{
+    width: 80px;
+    height: 40px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.start-screen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.start-screen-items{
+
+}
+
+.modal-header{
+    text-align: center;
+}
