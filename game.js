@@ -88,11 +88,12 @@ g.createPlayer('red');
 mainLoop()
 
 function mainLoop(){
-
+    g.playerArr[0].gridPlacer();
     //Player 1 Movecheck
     if(g.playerArr[0].moveUp || g.playerArr[0].moveDown || g.playerArr[0].moveLeft || g.playerArr[0].moveRight){
         g.playerArr[0].move();
     }
+
 
     //Clear canvas
     ctx.clearRect(0, 0, 750, 750);
