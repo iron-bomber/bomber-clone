@@ -12,8 +12,63 @@ class Bomber{
         this.speed = 3;
         this.iGrid = 0;
         this.jGrid = 0;
+        this.againstLeft = false;
+        this.againstRight = false;
+        this.againstTop = false;
+        this.againstBottom = false;
     }
 
+    wallDetection(){
+        
+        //Move Right OOB Check
+        if(this.x + this.speed + this.width > 750){
+            for(let i = 0; i < this.speed; i++){
+                if(this.x + this.width < 750){
+                    this.x++;
+                }
+            }
+        }else{
+            if(this.moveRight){
+                this.x += this.speed;
+            }
+        }
+        //Move Left OOB Check
+        if(this.x - this.speed < 0){
+            for(let i = 0; i < this.speed; i++){
+                if(this.x > 0){
+                    this.x--;
+                }
+            }
+        }else{
+            if(this.moveLeft){
+                this.x -= this.speed;
+            }
+        }
+        //Move Down OOB Check
+        if(this.y  + this.height + this.speed > 750){
+            for(let i = 0; i < this.speed; i++){
+                if(this.y + this.height < 750){
+                    this.y++;
+                }
+            }
+        }else{
+            if(this.moveDown){
+                this.y += this.speed;
+            }
+        }
+        //Move Up OOB Check
+        if(this.y - this.speed < 0){
+            for(let i = 0; i < this.speed; i++){
+                if(this.y > 0){
+                    this.y--;
+                }
+            }
+        }else{
+            if(this.moveUp){
+                this.y -= this.speed;
+            }
+        }
+    }
 
     gridPlacer () {
         let xMin = 0;
@@ -76,64 +131,12 @@ class Bomber{
         return theWalls;
     }
 
-
-    // move(){
-    //     let theWalls = this.wallDetector();
-    //     //Move Right OOB Check
-    //     if(this.x + this.speed + this.width > 750){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.x + this.width < 750){
-    //                 this.x++;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveRight){
-    //             this.x += this.speed;
-    //         }
-    //     }
-    //     //Move Left OOB Check
-    //     if(this.x - this.speed < 0){ 
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.x > 0){
-    //                 this.x--;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveLeft){
-    //             this.x -= this.speed;
-    //         }
-    //     }
-    //     //Move Down OOB Check
-    //     if(this.y  + this.height + this.speed > 750){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.y + this.height < 750){
-    //                 this.y++;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveDown){
-    //             this.y += this.speed;
-    //         }
-    //     }
-    //     //Move Up OOB Check
-    //     if(this.y - this.speed < 0){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.y > 0){
-    //                 this.y--;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveUp){
-    //             this.y -= this.speed;
-    //         }
-    //     }
-    // }
-
     move(){
         let theWalls = this.wallDetector();
         //Move Right OOB Check
         if(theWalls.right){
-            if(this.x + this.speed + this.width > (this.jGrid * 50) + 50) {
+            if(this.x + this.speed + this.width > (this.jGrid * 50) + 50
+             ) {
                 for(let i = 0; i < this.speed; i++){
                     if(this.x + this.width < (this.jGrid * 50) + 50){
                         this.x++;
@@ -208,4 +211,9 @@ class Bomber{
         }
 
     }
+
+    
 }
+
+
+

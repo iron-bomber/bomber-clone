@@ -116,7 +116,7 @@ function mainLoop(){
 
 // document.querySelector('#start-game').onclick = () =>{
 //     mainLoop();
-// }
+// }s
 
 
 //PLAYER COMMANDS
