@@ -3,8 +3,8 @@ class Bomber{
         this.color = color;
         this.x = 25;
         this.y = 25;
-        this.width = 30;
-        this.height = 30;
+        this.width = 20;
+        this.height = 20;
         this.moveUp;
         this.moveDown;
         this.moveRight;
@@ -45,34 +45,53 @@ class Bomber{
             theWalls.right = true;
         }else if(bombMap[this.iGrid][this.jGrid+1] !== 'free') {
             theWalls.right = true;
-        } else {
+        } else if(this.y + this.height > this.iGrid * 50 + 50) {
+            if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free'){
+                theWalls.right = true;
+            }
+        }else{
             theWalls.right = false;
         }
+
         // Checks if there is a wall to the left
         if (this.jGrid === 0) {
             theWalls.left = true;
         }else if(bombMap[this.iGrid][this.jGrid-1] !== 'free') {
             theWalls.left = true;
-        } else {
+        } else if (this.y + this.height > this.iGrid * 50 + 50) {
+            if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free') {
+                theWalls.left = true;
+            }
+        } else{
             theWalls.left = false;
         }
+
         // Checks if there is a wall below
         if(this.iGrid === 14) {
             theWalls.down = true;
         } else if (bombMap[this.iGrid+1][this.jGrid] !== 'free') {
             theWalls.down = true;
-        } else {
+        } else if (this.x + this.width > this.jGrid * 50 + 50) {
+            if (bombMap[this.iGrid+1][this.jGrid+1] !== 'free') {
+                theWalls.down = true;
+            }
+        }       
+        else {
             theWalls.down = false;
         }
+
         // Checks if there is a wall above
         if (this.iGrid === 0) {
             theWalls.up = true;
         }else if(bombMap[this.iGrid-1][this.jGrid] !== 'free') {
             theWalls.up = true
+        }else if (this.x + this.width > this.jGrid * 50 + 50){
+            if (bombMap[this.iGrid-1][this.jGrid + 1] !== 'free') {
+                theWalls.up = true;
+            }  
         } else {
             theWalls.up = false;
         }
-
         return theWalls;
     }
 
@@ -129,11 +148,16 @@ class Bomber{
     //     }
     // }
 
+
+    // if (rect1.x < rect2.x + rect2.width &&
+    //     rect1.x + rect1.width > rect2.x &&
+    //     rect1.y < rect2.y + rect2.height &&
+    //     rect1.y + rect1.height > rect2.y) {
     move(){
         let theWalls = this.wallDetector();
         //Move Right OOB Check
         if(theWalls.right){
-            if(this.x + this.speed + this.width > (this.jGrid * 50) + 50) {
+            if(this.x + this.speed + this.width > (this.jGrid * 50) + 50 ) {
                 for(let i = 0; i < this.speed; i++){
                     if(this.x + this.width < (this.jGrid * 50) + 50){
                         this.x++;
@@ -190,7 +214,7 @@ class Bomber{
 
         //Move Up OOB Check
         if(theWalls.up){
-            if(this.y - this.speed < (this.iGrid * 50)) {
+            if(this.y - this.speed < this.iGrid * 50) {
                 for(let i = 0; i < this.speed; i++){
                     if(this.y > (this.iGrid * 50)){
                         this.y--;
