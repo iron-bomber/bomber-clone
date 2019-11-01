@@ -9,13 +9,11 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 3;
+        this.speedPower = 0;
+        this.speed = 6 + this.speedPower;
         this.iGrid = 0;
         this.jGrid = 0;
-        this.againstLeft = false;
-        this.againstRight = false;
-        this.againstTop = false;
-        this.againstBottom = false;
+        this.bombPower = 0;
     }
 
     wallDetection(){

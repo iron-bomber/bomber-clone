@@ -16,8 +16,12 @@ body{
 }
 
 .main-game-container{
-    width: 750px;
-    height: 750px;
+    width: 786px;
+    height: 786px;
+}
+
+canvas{
+    transform: scale(1);
 }
 
 .start-btn{
@@ -31,10 +35,6 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.start-screen-items{
-
 }
 
 .modal-header{
