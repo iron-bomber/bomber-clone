@@ -6,12 +6,22 @@ class Bomb {
         this.power = power;
         this.exploding = false;
         this.powerupLocation;
+        this.puPositions = []
     }
 
-    randomPowerup(){
-        random = Math.floor(Math.random() * 3);
-
-        
+    placeRandomPowerup(x, y){
+        console.log('placing powerup')
+        let random = Math.floor(Math.random() * 3);
+        let powers = [
+            "bombpower",
+            "speed",
+            "extrabomb"
+        ]
+        console.log(bomberLocations)
+        if(0.75 < Math.random()){
+            bomberLocations[x][y] = powers[random];
+        }
+        console.log(bomberLocations)
     }
 
 
@@ -26,7 +36,8 @@ class Bomb {
                     if (bombMap[this.iGrid-i][this.jGrid] === 'free') {
                         bombMap[this.iGrid-i][this.jGrid] = 'boom';
                     } else if (bombMap[this.iGrid-i][this.jGrid] === 'rock') {
-                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
+                        this.puPositions.push([this.iGrid-i])
+                        this.puPositions.push([this.jGrid])
                         bombMap[this.iGrid-i][this.jGrid] = 'boom';
                         rockCollide.up = true;
                     } else {
@@ -42,7 +53,8 @@ class Bomb {
                     if (bombMap[this.iGrid+i][this.jGrid] === 'free') {
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                     } else if (bombMap[this.iGrid+i][this.jGrid] === 'rock') {
-                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
+                        this.puPositions.push([this.iGrid+i])
+                        this.puPositions.push([this.jGrid])
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                         rockCollide.down = true;
                     } else {
@@ -58,7 +70,8 @@ class Bomb {
                     if (bombMap[this.iGrid][this.jGrid+i] === 'free') {
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                     } else if (bombMap[this.iGrid][this.jGrid+i] === 'rock') {
-                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
+                        this.puPositions.push([this.iGrid])
+                        this.puPositions.push([this.jGrid+i])
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                         rockCollide.right = true;
                     } else {
@@ -74,7 +87,8 @@ class Bomb {
                     if (bombMap[this.iGrid][this.jGrid-i] === 'free') {
                         bombMap[this.iGrid][this.jGrid-i] = 'boom';
                     } else if (bombMap[this.iGrid][this.jGrid-i] === 'rock') {
-                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
+                        this.puPositions.push([this.iGrid])
+                        this.puPositions.push([this.jGrid-i])
                         bombMap[this.iGrid][this.jGrid-i] = 'boom';
                         rockCollide.left = true;
                     } else {
@@ -138,7 +152,28 @@ class Bomb {
                     }
                 }
             }
-            bomberLocations[this.powerupLocation] = 
+            console.log(this.puPositions)
+            switch(this.puPositions.length){
+                case 2:
+                    this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
+                    break;
+                case 4:
+                    this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
+                    this.placeRandomPowerup(this.puPositions[2], this.puPositions[3]);
+                    break;
+                case 6: 
+                    this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
+                    this.placeRandomPowerup(this.puPositions[2], this.puPositions[3]);
+                    this.placeRandomPowerup(this.puPositions[4], this.puPositions[5]);
+                    break;
+                case 5: 
+                    this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
+                    this.placeRandomPowerup(this.puPositions[2], this.puPositions[3]);
+                    this.placeRandomPowerup(this.puPositions[4], this.puPositions[5]);
+                    this.placeRandomPowerup(this.puPositions[6], this.puPositions[7]);
+                    break;
+            }
+            console.log(bomberLocations);
             delete this;
         }, 300)
     }

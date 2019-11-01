@@ -77,10 +77,13 @@ class Bomber{
         // Iterates through the 2d array
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (this.x+this.height/2 >= xMin && this.x-this.height/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
-                    bomberLocations[i][j] = `${this.color}`;
+                if (this.x+this.width/2 >= xMin && this.x-this.width/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
+                    bomberLocations[i][j] = g.playerArr[0];
                     this.iGrid = i;
                     this.jGrid = j;
+                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed"){}
+                else{
+                    bomberLocations[i][j] = "free";
                 }
                 xMin += 50;
                 xMax += 50;

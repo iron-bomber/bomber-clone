@@ -120,6 +120,25 @@ class Game {
         }
 
     }
+
+    drawPowers() {
+        let xCoord = 50;
+        let yCoord = 50;
+        for(let i = 1; i < bomberLocations.length -1; i++) {
+            for (let j = 1; j < bomberLocations.length -1; j++) {
+                if (bomberLocations[i][j] === 'bombpower' || bomberLocations[i][j] === 'extrabomb' || bomberLocations[i][j] === 'speed') {
+                    ctx.fillStyle = 'yellow';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    xCoord += 50;
+                } else {
+                    xCoord += 50;
+                }
+            }
+            yCoord += 50;
+            xCoord = 50;
+        }
+
+    }
 }
 
 //SPRITE VARS
@@ -152,6 +171,7 @@ function mainLoop(){
     //Clear canvas
     ctx.clearRect(0, 0, 750, 750);
     g.createMap();
+    g.drawPowers();
 
     //Draw player function
     function drawSelf(u){
