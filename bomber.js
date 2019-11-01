@@ -1,8 +1,8 @@
 class Bomber{
     constructor(color){
         this.color = color;
-        this.x = 25;
-        this.y = 25;
+        this.x = 75;
+        this.y = 75;
         this.width = 20;
         this.height = 20;
         this.moveUp = false;
@@ -10,8 +10,8 @@ class Bomber{
         this.moveRight = false;
         this.moveLeft = false;
         this.speed = 3;
-        this.iGrid = 0;
-        this.jGrid = 0;
+        this.iGrid = 1;
+        this.jGrid = 1;
         this.againstLeft = false;
         this.againstRight = false;
         this.againstTop = false;
@@ -21,9 +21,9 @@ class Bomber{
     wallDetection(){
         
         //Move Right OOB Check
-        if(this.x + this.speed + this.width > 750){
+        if(this.x + this.speed + this.width > 850){
             for(let i = 0; i < this.speed; i++){
-                if(this.x + this.width < 750){
+                if(this.x + this.width < 850){
                     this.x++;
                 }
             }
@@ -45,9 +45,9 @@ class Bomber{
             }
         }
         //Move Down OOB Check
-        if(this.y  + this.height + this.speed > 750){
+        if(this.y  + this.height + this.speed > 850){
             for(let i = 0; i < this.speed; i++){
-                if(this.y + this.height < 750){
+                if(this.y + this.height < 850){
                     this.y++;
                 }
             }
@@ -71,13 +71,13 @@ class Bomber{
     }
 
     gridPlacer () {
-        let xMin = 0;
-        let xMax = 50;
-        let yMin = 0;
-        let yMax = 50;
+        let xMin = 50;
+        let xMax = 100;
+        let yMin = 50;
+        let yMax = 100;
         // Iterates through the 2d array
-        for (let i = 0; i < bomberLocations.length; i++) {
-            for (let j = 0; j < bomberLocations.length; j++) {
+        for (let i = 1; i < bomberLocations.length-1; i++) {
+            for (let j = 1; j < bomberLocations.length-1; j++) {
                 if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
                     bomberLocations[i][j] = `${this.color}`;
                     this.iGrid = i;
@@ -88,15 +88,15 @@ class Bomber{
             }
             yMin += 50;
             yMax += 50;
-            xMin = 0;
-            xMax = 50;
+            xMin = 50;
+            xMax = 100;
         }
     }
 
     wallDetector () {
         let theWalls = {};
         //Checks if there is a wall to the right
-        if(this.jGrid === 14) {
+        if(this.jGrid === 15) {
             theWalls.right = true;
         }else if(bombMap[this.iGrid][this.jGrid+1] !== 'free') {
             theWalls.right = true;
@@ -109,7 +109,7 @@ class Bomber{
         }
 
         // Checks if there is a wall to the left
-        if (this.jGrid === 0) {
+        if (this.jGrid === 1) {
             theWalls.left = true;
         }else if(bombMap[this.iGrid][this.jGrid-1] !== 'free') {
             theWalls.left = true;
@@ -122,7 +122,7 @@ class Bomber{
         }
 
         // Checks if there is a wall below
-        if(this.iGrid === 14) {
+        if(this.iGrid === 15) {
             theWalls.down = true;
         } else if (bombMap[this.iGrid+1][this.jGrid] !== 'free') {
             theWalls.down = true;
@@ -136,7 +136,7 @@ class Bomber{
         }
 
         // Checks if there is a wall above
-        if (this.iGrid === 0) {
+        if (this.iGrid === 1) {
             theWalls.up = true;
         }else if(bombMap[this.iGrid-1][this.jGrid] !== 'free') {
             theWalls.up = true

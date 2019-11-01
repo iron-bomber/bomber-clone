@@ -7,6 +7,8 @@ class Bomb {
         this.exploding = false;
     }
 
+
+
     explode() {
         bombMap[this.iGrid][this.jGrid] = 'boom';
         let rockCollide = {up: false, down: false, left: false, right: false};
