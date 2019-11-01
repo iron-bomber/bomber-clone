@@ -7,6 +7,7 @@ class Bomb {
         this.exploding = false;
         this.powerupLocation;
         this.puPositions = []
+        this.type = 'bomb';
     }
 
     placeRandomPowerup(x, y){
@@ -40,7 +41,13 @@ class Bomb {
                         this.puPositions.push([this.jGrid])
                         bombMap[this.iGrid-i][this.jGrid] = 'boom';
                         rockCollide.up = true;
-                    } else {
+                    } else if (typeof bombMap[this.iGrid-i][this.jGrid] === 'object') {
+                        if (bombMap[this.iGrid-i][this.jGrid].type === 'bomb') {
+                            bombMap[this.iGrid-i][this.jGrid].exploding = true;
+                            bombMap[this.iGrid-i][this.jGrid].explode();
+                            rockCollide.up = true;
+                        }
+                    }else {
                         rockCollide.up = true;
                     }
                 } else {
@@ -57,6 +64,12 @@ class Bomb {
                         this.puPositions.push([this.jGrid])
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                         rockCollide.down = true;
+                    }else if (typeof bombMap[this.iGrid+i][this.jGrid] === 'object') {
+                        if (bombMap[this.iGrid+i][this.jGrid].type === 'bomb') {
+                            bombMap[this.iGrid+i][this.jGrid].exploding = true;
+                            bombMap[this.iGrid+i][this.jGrid].explode();
+                            rockCollide.down = true;
+                        }
                     } else {
                         rockCollide.down = true;
                     }
@@ -74,7 +87,13 @@ class Bomb {
                         this.puPositions.push([this.jGrid+i])
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                         rockCollide.right = true;
-                    } else {
+                    } else if (typeof bombMap[this.iGrid][this.jGrid+i] === 'object') {
+                        if (bombMap[this.iGrid][this.jGrid+i].type === 'bomb') {
+                            bombMap[this.iGrid][this.jGrid+i].exploding = true;
+                            bombMap[this.iGrid][this.jGrid+i].explode();
+                            rockCollide.right = true;
+                        }
+                    }else {
                         rockCollide.right = true;
                     }
                 } else {
@@ -91,7 +110,13 @@ class Bomb {
                         this.puPositions.push([this.jGrid-i])
                         bombMap[this.iGrid][this.jGrid-i] = 'boom';
                         rockCollide.left = true;
-                    } else {
+                    } else if (typeof bombMap[this.iGrid][this.jGrid-i] === 'object') {
+                        if (bombMap[this.iGrid][this.jGrid-i].type === 'bomb') {
+                            bombMap[this.iGrid][this.jGrid-i].exploding = true;
+                            bombMap[this.iGrid][this.jGrid-i].explode();
+                            rockCollide.left = true;
+                        }
+                    }else {
                         rockCollide.left = true;
                     }
                 } else {
@@ -99,6 +124,7 @@ class Bomb {
                 }
             }
         }
+        this.owner.bombAmmo +=1;
         setTimeout(() => {
             bombMap[this.iGrid][this.jGrid] = 'free';
             let rockCollide = {up: false, down: false, left: false, right: false};
@@ -166,14 +192,13 @@ class Bomb {
                     this.placeRandomPowerup(this.puPositions[2], this.puPositions[3]);
                     this.placeRandomPowerup(this.puPositions[4], this.puPositions[5]);
                     break;
-                case 5: 
+                case 8: 
                     this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
                     this.placeRandomPowerup(this.puPositions[2], this.puPositions[3]);
                     this.placeRandomPowerup(this.puPositions[4], this.puPositions[5]);
                     this.placeRandomPowerup(this.puPositions[6], this.puPositions[7]);
                     break;
             }
-            console.log(bomberLocations);
             delete this;
         }, 300)
     }
@@ -183,7 +208,6 @@ class Bomb {
         setTimeout(() => {
             if (!this.exploding) {
                 this.explode();
-                this.owner.bombAmmo +=1;
             }
         }, 3000)       
     }

@@ -353,7 +353,6 @@ document.onkeypress = function(e){
                 newBomb.gridPlacer();
                 newBomb.timerExplode();
                 g.bombArr.push(newBomb);
-                console.log(g.bombArr);
                 g.playerArr[0].bombAmmo -= 1;
             }
         }

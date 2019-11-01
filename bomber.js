@@ -14,7 +14,8 @@ class Bomber{
         this.iGrid = 1;
         this.jGrid = 1;
         this.bombPower = 2;
-        this.bombAmmo = 1;
+        this.bombAmmo = 5;
+        this.type = 'player'
     }
 
     wallDetection(){
@@ -77,7 +78,7 @@ class Bomber{
         // Iterates through the 2d array
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (this.x+this.width/2 >= xMin && this.x-this.width/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
+                if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
                     bomberLocations[i][j] = g.playerArr[0];
                     this.iGrid = i;
                     this.jGrid = j;
