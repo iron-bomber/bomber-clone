@@ -46,14 +46,24 @@ class Game {
 
     }
 
-    // generateRocks() {
-    //     for (let i = 0; i < bombMap.length; i++) {
-    //         for(let j = 0; j < bombMap.length; j++) {
-    //             if ((j < 2 || j > 17) && (i === 0 || i === 19)
-    //         }
-    //     }
+    generateRocks() {
+        for (let i = 0; i < bombMap.length; i++) {
+            for(let j = 0; j < bombMap.length; j++) {
+                if (bombMap[i][j] === 'wall') {
+                    continue;
+                }else if ((j < 2 || j > 12) && (i === 0 || i === 14)) {
+                    continue;
+                } else if ((i < 2 || i > 12) && (j === 0 || j === 14)) {
+                    continue;
+                } else {
+                    if (Math.random() > 0.25) {
+                        bombMap[i][j] = 'rock';
+                    }
+                }
+            }
+        }
 
-    // }
+    }
 
     createPlayer(color) {
         this.playerArr.push(new Bomber(color)); 
@@ -65,12 +75,17 @@ class Game {
         let yCoord = 0;
         for(let i = 0; i < bombMap.length; i++) {
             for (let j = 0; j < bombMap.length; j++) {
-                if (bombMap[i][j] === 'free') {
-                    ctx.fillStyle = 'green';
+                if (bombMap[i][j] === 'wall') {
+                    ctx.fillStyle = 'black';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
-                } else {
-                    ctx.fillStyle = 'black';
+
+                } else if (bombMap[i][j] === 'rock') {
+                    ctx.fillStyle = 'brown';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    xCoord += 50;
+                }else {
+                    ctx.fillStyle = 'green';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 }
@@ -84,7 +99,8 @@ class Game {
 
 let g = new Game();
 g.createPlayer('red');
-
+g.generateRocks();
+console.log(bombMap);
 mainLoop()
 
 function mainLoop(){
