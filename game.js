@@ -47,11 +47,6 @@ class Game {
         this.bombArr = [];
     }
 
-    generatePowerUps(){
-
-
-    }
-
     // Randomly generates rocks into the 2d Array bombMap
     generateRocks() {
         for (let i = 1; i < bombMap.length-1; i++) {
