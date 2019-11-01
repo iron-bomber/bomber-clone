@@ -5,7 +5,16 @@ class Bomb {
         this.jGrid = jGrid;
         this.power = power;
         this.exploding = false;
+        this.powerupLocation;
     }
+
+    randomPowerup(){
+        random = Math.floor(Math.random() * 3);
+
+        
+    }
+
+
 
     explode() {
         bombMap[this.iGrid][this.jGrid] = 'boom';
@@ -17,6 +26,7 @@ class Bomb {
                     if (bombMap[this.iGrid-i][this.jGrid] === 'free') {
                         bombMap[this.iGrid-i][this.jGrid] = 'boom';
                     } else if (bombMap[this.iGrid-i][this.jGrid] === 'rock') {
+                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
                         bombMap[this.iGrid-i][this.jGrid] = 'boom';
                         rockCollide.up = true;
                     } else {
@@ -32,6 +42,7 @@ class Bomb {
                     if (bombMap[this.iGrid+i][this.jGrid] === 'free') {
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                     } else if (bombMap[this.iGrid+i][this.jGrid] === 'rock') {
+                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                         rockCollide.down = true;
                     } else {
@@ -47,6 +58,7 @@ class Bomb {
                     if (bombMap[this.iGrid][this.jGrid+i] === 'free') {
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                     } else if (bombMap[this.iGrid][this.jGrid+i] === 'rock') {
+                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                         rockCollide.right = true;
                     } else {
@@ -62,6 +74,7 @@ class Bomb {
                     if (bombMap[this.iGrid][this.jGrid-i] === 'free') {
                         bombMap[this.iGrid][this.jGrid-i] = 'boom';
                     } else if (bombMap[this.iGrid][this.jGrid-i] === 'rock') {
+                        this.powerupLocation = bombMap[this.iGrid-i][this.jGrid];
                         bombMap[this.iGrid][this.jGrid-i] = 'boom';
                         rockCollide.left = true;
                     } else {
@@ -125,6 +138,7 @@ class Bomb {
                     }
                 }
             }
+            bomberLocations[this.powerupLocation] = 
             delete this;
         }, 300)
     }
@@ -134,6 +148,7 @@ class Bomb {
         setTimeout(() => {
             if (!this.exploding) {
                 this.explode();
+                this.owner.bombAmmo +=1;
             }
         }, 3000)       
     }

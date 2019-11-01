@@ -16,12 +16,18 @@ body{
 }
 
 .main-game-container{
+<<<<<<< HEAD
     width: 786px;
     height: 786px;
 }
 
 canvas{
     transform: scale(1);
+=======
+    width: 850px;
+    height: 850px;
+    transform: scale(0.94);
+>>>>>>> f4dfea7128ad79bd3f127f2328fe9987ea788a34
 }
 
 .start-btn{
@@ -39,4 +45,8 @@ canvas{
 
 .modal-header{
     text-align: center;
+}
+
+canvas {
+    transform: scale(0.94);
 }
