@@ -132,7 +132,7 @@ let lastPressed = 'down';
 let g = new Game();
 g.createPlayer('red');
 // Randomly generate rocks on map
-g.generateRocks();
+// g.generateRocks();
 mainLoop();
 
 

@@ -10,7 +10,7 @@ class Bomber{
         this.moveRight = false;
         this.moveLeft = false;
         this.speedPower = 0;
-        this.speed = 6 + this.speedPower;
+        this.speed = 3 + this.speedPower;
         this.iGrid = 1;
         this.jGrid = 1;
         this.bombPower = 2;
@@ -77,7 +77,7 @@ class Bomber{
         // Iterates through the 2d array
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
+                if (this.x+this.height/2 >= xMin && this.x-this.height/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
                     bomberLocations[i][j] = `${this.color}`;
                     this.iGrid = i;
                     this.jGrid = j;
@@ -148,65 +148,6 @@ class Bomber{
         }
         return theWalls;
     }
-
-
-    // move(){
-    //     let theWalls = this.wallDetector();
-    //     //Move Right OOB Check
-    //     if(this.x + this.speed + this.width > 750){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.x + this.width < 750){
-    //                 this.x++;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveRight){
-    //             this.x += this.speed;
-    //         }
-    //     }
-    //     //Move Left OOB Check
-    //     if(this.x - this.speed < 0){ 
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.x > 0){
-    //                 this.x--;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveLeft){
-    //             this.x -= this.speed;
-    //         }
-    //     }
-    //     //Move Down OOB Check
-    //     if(this.y  + this.height + this.speed > 750){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.y + this.height < 750){
-    //                 this.y++;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveDown){
-    //             this.y += this.speed;
-    //         }
-    //     }
-    //     //Move Up OOB Check
-    //     if(this.y - this.speed < 0){
-    //         for(let i = 0; i < this.speed; i++){
-    //             if(this.y > 0){
-    //                 this.y--;
-    //             }
-    //         }
-    //     }else{
-    //         if(this.moveUp){
-    //             this.y -= this.speed;
-    //         }
-    //     }
-    // }
-
-
-    // if (rect1.x < rect2.x + rect2.width &&
-    //     rect1.x + rect1.width > rect2.x &&
-    //     rect1.y < rect2.y + rect2.height &&
-    //     rect1.y + rect1.height > rect2.y) {
     move(){
         let theWalls = this.wallDetector();
         //Move Right OOB Check
