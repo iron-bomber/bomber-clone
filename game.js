@@ -105,16 +105,14 @@ let lastPressed = 'down';
 
 let g = new Game();
 g.createPlayer('red');
-g.generateRocks();
+// g.generateRocks();
 mainLoop()
 
 
 
 function mainLoop(){
-    setTimeout(()=>{
-        console.log(g.playerArr[0].moveRight, g.playerArr[0].moveLeft, g.playerArr[0].moveUp, g.playerArr[0].moveDown)
-    }, 500)
-
+    
+    //GRID PLACER
     g.playerArr[0].gridPlacer();
     //Player 1 Movecheck
     if(g.playerArr[0].moveUp || g.playerArr[0].moveDown || g.playerArr[0].moveLeft || g.playerArr[0].moveRight){
