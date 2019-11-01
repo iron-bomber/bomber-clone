@@ -85,6 +85,11 @@ class Game {
 let g = new Game();
 g.createPlayer('red');
 
+//SPRITE VARS
+let frameCounter = 0;
+let ssNum = 1;
+let p1Moving;
+
 mainLoop()
 
 function mainLoop(){
@@ -105,13 +110,69 @@ function mainLoop(){
         ctx.fillRect(u.x, u.y, u.width, u.height)
     }
 
+
     //Drawing Player
     drawSelf(g.playerArr[0]);
+
+
+
+
+
+
+
+
+
+    //DRAWING SPRITE
+
+    
+    var p1Sheet = new Image();
+    
+    p1Sheet.src="./Images/scp.png";
+
+
+    let spriteWidth = 108;
+    let spriteHeight = 134;
+    let spriteScale = .6;
+    let frameRate = 20;
+    let totalFrames = frameRate * 7;
+
+    if(gplayerArr[0].moveRight == true){
+        p1Moving = 4;        
+    }
+
+    function drawImg(){
+        console.log(ssNum)
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Sheet, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 20, g.playerArr[0].y - 50, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        if(frameCounter % frameRate == 0){
+            console.log('counting')
+            ssNum++;
+        }
+        if(frameCounter == totalFrames - 1){
+            ssNum = 1;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+
+
+    drawImg()
+
+
+
+
+
+
+
+
+
 
     //Loop this function 60fps
     requestAnimationFrame(mainLoop);
 
 }
+
 
 
 // document.querySelector('#start-game').onclick = () =>{
