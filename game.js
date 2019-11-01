@@ -96,19 +96,25 @@ class Game {
     }
 }
 
+//SPRITE VARS
+let frameCounter = 0;
+let ssNum = 0;
+let idleDecider;
+let lastPressed = 'down';
+
 
 let g = new Game();
 g.createPlayer('red');
 g.generateRocks();
 mainLoop()
 
-//SPRITE VARS
-let frameCounter = 0;
-let ssNum = 1;
-let p1Moving;
 
 
 function mainLoop(){
+    setTimeout(()=>{
+        console.log(g.playerArr[0].moveRight, g.playerArr[0].moveLeft, g.playerArr[0].moveUp, g.playerArr[0].moveDown)
+    }, 500)
+
     g.playerArr[0].gridPlacer();
     //Player 1 Movecheck
     if(g.playerArr[0].moveUp || g.playerArr[0].moveDown || g.playerArr[0].moveLeft || g.playerArr[0].moveRight){
@@ -130,50 +136,140 @@ function mainLoop(){
     //Drawing Player
     drawSelf(g.playerArr[0]);
 
+    //P1 SPRITES
 
-
-
-
-
-
-
-
-    //DRAWING SPRITE
+    var p1Right = new Image();
+    var p1Left = new Image();
+    var p1Up = new Image();
+    var p1Down = new Image();
 
     
-    var p1Sheet = new Image();
-    
-    p1Sheet.src="./Images/scp.png";
+    p1Right.src="./Images/p1/p1WalkRight.png";
+    p1Left.src ="./Images/p1/p1WalkLeft.png";
+    p1Up.src="./Images/p1/p1WalkUp.png";
+    p1Down.src="./Images/p1/p1WalkDown.png"
 
 
-    let spriteWidth = 108;
-    let spriteHeight = 134;
-    let spriteScale = .6;
-    let frameRate = 20;
-    let totalFrames = frameRate * 7;
+    let spriteWidth = 64;
+    let spriteHeight = 50;
+    let spriteScale = 1;
+    let frameRate = 8;
+    let totalFrames = frameRate * 8;
 
-    if(gplayerArr[0].moveRight == true){
-        p1Moving = 4;        
-    }
-
-    function drawImg(){
-        console.log(ssNum)
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Sheet, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 20, g.playerArr[0].y - 50, spriteWidth*spriteScale, spriteHeight*spriteScale);
+//P1 ANIMATIONS
+    //IDLE ANIMATION
+    function drawImgIdle(){
+        console.log('drawing idle')
+        switch(lastPressed){
+            case "up":
+                idleDecider = p1Up;
+                break;
+            case "down":
+                idleDecider = p1Down;
+                break;
+            case "left":
+                idleDecider = p1Left;
+                break;
+            case "right":
+                idleDecider = p1Right;
+                break;
         }
+        if(frameCounter < totalFrames){
+            ctx.drawImage(idleDecider, 0, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        if(frameCounter == totalFrames - 1){
+            console.log('resetting')
+            ssNum=0;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+    //WALK RIGHT
+    function drawImgRight(){
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        if(frameCounter % frameRate == 0){
+            ssNum++;
+        }
+        if(frameCounter == totalFrames - 1){
+            console.log('resetting')
+            ssNum=0;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+    //WALK LEFT
+    function drawImgLeft(){
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Left, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+
+        }
+        console.log(ssNum)
+        if(frameCounter % frameRate == 0){
+            ssNum++;
+        }
+        if(frameCounter == totalFrames - 1){
+            ssNum=0;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+    //WALK UP
+    function drawImgUp(){
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Up, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        console.log(ssNum)
+        if(frameCounter % frameRate == 0){
+            ssNum++;
+        }
+        if(frameCounter == totalFrames - 1){
+            ssNum=0;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+    //WALK DOWN
+    function drawImgDown(){
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Down, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        console.log(ssNum)
         if(frameCounter % frameRate == 0){
             console.log('counting')
             ssNum++;
         }
         if(frameCounter == totalFrames - 1){
-            ssNum = 1;
+            ssNum=0;
             frameCounter = 0;
         }
         frameCounter++;
     }
+    //END P1 ANIMATIONS
 
-
-    drawImg()
+    if (g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true){
+        drawImgUp()
+    }
+    else if (g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveDown == true){
+        drawImgDown()
+    }else if  
+        (  g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true
+        || g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true && g.playerArr[0].moveDown == true
+        || g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true && g.playerArr[0].moveDown == true
+        || g.playerArr[0].moveLeft == false && g.playerArr[0].moveRight == false && g.playerArr[0].moveUp == false && g.playerArr[0].moveDown == false
+    ){
+        drawImgIdle()
+    }
+    else if(g.playerArr[0].moveLeft == true){
+        drawImgLeft()
+    }else if(g.playerArr[0].moveRight == true){
+        drawImgRight()
+    }else if(g.playerArr[0].moveUp == true){
+        drawImgUp()
+    }else if(g.playerArr[0].moveDown == true){
+        drawImgDown()
+    }
 
 
 
@@ -194,7 +290,6 @@ function mainLoop(){
 // document.querySelector('#start-game').onclick = () =>{
 //     mainLoop();
 // }s
-
 
 //PLAYER COMMANDS
 document.onkeypress = function(e){
@@ -219,14 +314,26 @@ document.onkeypress = function(e){
 document.onkeyup = function(e){
     if(e.key === "s"){
         g.playerArr[0].moveDown = false;
+        ssNum = 0;
+        frameCounter = 0;
+        lastPressed = "down";
     }
     if(e.key === "w"){
         g.playerArr[0].moveUp = false;
+        ssNum = 0;
+        frameCounter = 0;
+        lastPressed = "up";
     }
     if(e.key === "a"){
         g.playerArr[0].moveLeft = false;
+        ssNum = 0;
+        frameCounter = 0;
+        lastPressed = "left"
     }
     if(e.key === "d"){
         g.playerArr[0].moveRight = false;
+        ssNum = 0;
+        frameCounter = 0;
+        lastPressed = "right"
     }
 }

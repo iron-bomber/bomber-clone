@@ -5,10 +5,10 @@ class Bomber{
         this.y = 25;
         this.width = 20;
         this.height = 20;
-        this.moveUp;
-        this.moveDown;
-        this.moveRight;
-        this.moveLeft;
+        this.moveUp = false;
+        this.moveDown = false;
+        this.moveRight = false;
+        this.moveLeft = false;
         this.speed = 3;
         this.iGrid = 0;
         this.jGrid = 0;
