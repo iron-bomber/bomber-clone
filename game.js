@@ -39,6 +39,7 @@ class Game {
 
     constructor(){
         this.playerArr = [];
+        this.bombArr = [];
     }
 
     generatePowerUps(){
@@ -46,6 +47,7 @@ class Game {
 
     }
 
+    // Randomly generates rocks into the 2d Array bombMap
     generateRocks() {
         for (let i = 0; i < bombMap.length; i++) {
             for(let j = 0; j < bombMap.length; j++) {
@@ -70,6 +72,7 @@ class Game {
         console.log('player created')
     }
 
+    //Draws a background based on the 2d Array bombMap
     createMap() {
         let xCoord = 0;
         let yCoord = 0;
@@ -84,7 +87,24 @@ class Game {
                     ctx.fillStyle = 'brown';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
-                }else {
+                }else if (typeof bombMap[i][j] === 'object') {
+                    ctx.fillStyle = 'green';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    //bomb Gray
+                    ctx.fillStyle = '#C0C0C0';
+                    ctx.beginPath();
+                    ctx.arc(xCoord + 25, yCoord + 25, 12, 0, 2 * Math.PI);
+                    ctx.fill();
+                    xCoord += 50;
+                } else if (bombMap[i][j] === 'boom') {
+                    // ctx.fillStyle = 'green';
+                    // ctx.fillRect(xCoord, yCoord, 50, 50);
+                    //explosion orange
+                    ctx.fillStyle = '#FF9900';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    xCoord += 50;
+                }
+                else {
                     ctx.fillStyle = 'green';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
@@ -99,7 +119,9 @@ class Game {
 
 let g = new Game();
 g.createPlayer('red');
+// Randomly generate rocks on map
 g.generateRocks();
+
 console.log(bombMap);
 mainLoop()
 
@@ -137,7 +159,7 @@ function mainLoop(){
 
 //PLAYER COMMANDS
 document.onkeypress = function(e){
-
+    console.log(e.keyCode);
     if(e.key === "s"){
         g.playerArr[0].moveDown = true;
     }
@@ -150,8 +172,13 @@ document.onkeypress = function(e){
     if(e.key === "d"){
         g.playerArr[0].moveRight = true;
     }
-    if(e.key === "t"){
-        g.playerArr[0].gridPlacer();
+    if(e.keyCode === 32){
+        if (bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
+            let newBomb = (new Bomb('red', g.playerArr[0].iGrid, g.playerArr[0].jGrid, 1));
+            newBomb.gridPlacer();
+            newBomb.timerExplode();
+            g.bombArr.push(newBomb);
+        }
     }
 }
 
