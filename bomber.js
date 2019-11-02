@@ -85,7 +85,7 @@ class Bomber{
                         this.bombAmmo++;
                     }
                     if(bomberLocations[i][j] == "speed"){
-                        if(this.speed < 5){
+                        if(this.speed < 6){
                             this.speed += 1
                         }
                     }
