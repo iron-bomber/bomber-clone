@@ -9,7 +9,7 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 2;
+        this.speed = 6;
         this.iGrid = 1;
         this.jGrid = 1;
         this.bombPower = 1;
@@ -160,6 +160,27 @@ class Bomber{
         } else {
             theWalls.up = false;
         }
+
+        if(theWalls.up == false && theWalls.left == false){
+            if(this.x - this.speed < this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
+                theWalls.up = true;
+                theWalls.left = true;
+            }
+        }
+
+        console.log(this.x, this.x - this.speed, this.y, this.y-this.speed)
+        console.log( this.jGrid * 50, this.iGrid * 50)
+
+        // //Checks top left 
+        // if (this.y + this.height > this.iGrid * 50 && this.x + this.width > this.jGrid * 50) {
+        //     if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free') {
+        //         theWalls.left = true;
+        //     }
+        //     if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free'){
+
+        //     }
+        // } 
+
         return theWalls;
     }
     move(){
