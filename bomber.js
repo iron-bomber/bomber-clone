@@ -160,14 +160,34 @@ class Bomber{
         } else {
             theWalls.up = false;
         }
-
-        if(theWalls.up == false && theWalls.left == false){
+//////////////////////////////////////////////////// BUGFIX
+        if(theWalls.up == false && theWalls.left == false && this.moveLeft == true && this.moveUp == true){
             if(this.x - this.speed < this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
+                this.x -= this.speed;
                 theWalls.up = true;
                 theWalls.left = true;
             }
         }
-
+        if(theWalls.up == false && theWalls.right == false && this.moveRight == true && this.moveUp == true){
+            if(this.x + this.width + this.speed > this.jGrid * 50 + 50 && this.y+this.speed < this.iGrid * 50){
+                theWalls.up = true;
+                theWalls.right = true;
+            }
+        }
+        if(theWalls.down == false && theWalls.left == false && this.moveLeft == true && this.moveDown == true){
+            if(this.x - this.speed < this.jGrid * 50 && this.y- this.height - this.speed > this.iGrid * 50 + 50){
+                theWalls.down = true;
+                theWalls.left = true;
+            }
+        }
+        if(theWalls.down == false && theWalls.right == false && this.moveRight == true && this.moveDown == true){
+            if(this.x - this.speed > this.jGrid * 50 && this.y-this.speed > this.iGrid * 50){
+                this.y += this.speed;
+                theWalls.down = true;
+                theWalls.right = true;
+            }
+        }
+////////////////////////////////////////////////////////
         console.log(this.x, this.x - this.speed, this.y, this.y-this.speed)
         console.log( this.jGrid * 50, this.iGrid * 50)
 
