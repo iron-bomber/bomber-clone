@@ -9,11 +9,10 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speedPower = 0;
-        this.speed = 3 + this.speedPower;
+        this.speed = 2;
         this.iGrid = 1;
         this.jGrid = 1;
-        this.bombPower = 2;
+        this.bombPower = 1;
         this.bombAmmo = 1;
     }
 
@@ -74,10 +73,22 @@ class Bomber{
         let xMax = 100;
         let yMin = 50;
         let yMax = 100;
+
         // Iterates through the 2d array
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
                 if (this.x+this.width/2 >= xMin && this.x-this.width/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
+                    if(bomberLocations[i][j] == "bombpower"){
+                        this.bombPower++;
+                    }
+                    if(bomberLocations[i][j] == "extrabomb"){
+                        this.bombAmmo++;
+                    }
+                    if(bomberLocations[i][j] == "speed"){
+                        if(this.speed < 5){
+                            this.speed += 1
+                        }
+                    }
                     bomberLocations[i][j] = g.playerArr[0];
                     this.iGrid = i;
                     this.jGrid = j;

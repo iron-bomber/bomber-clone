@@ -116,15 +116,28 @@ class Game {
 
     }
 
+    //DRAWING POWERUPS
     drawPowers() {
         let xCoord = 50;
         let yCoord = 50;
         for(let i = 1; i < bomberLocations.length -1; i++) {
             for (let j = 1; j < bomberLocations.length -1; j++) {
                 if (bomberLocations[i][j] === 'bombpower' || bomberLocations[i][j] === 'extrabomb' || bomberLocations[i][j] === 'speed') {
-                    ctx.fillStyle = 'yellow';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
-                    xCoord += 50;
+                    if(bomberLocations[i][j] === 'bombpower'){
+                        ctx.fillStyle = 'cyan';
+                        ctx.fillRect(xCoord, yCoord, 50, 50);
+                        xCoord += 50;
+                    }
+                    else if(bomberLocations[i][j] === 'extrabomb'){
+                        ctx.fillStyle = 'red';
+                        ctx.fillRect(xCoord, yCoord, 50, 50);
+                        xCoord += 50;
+                    }
+                    else if(bomberLocations[i][j] === 'speed'){
+                        ctx.fillStyle = 'yellow';
+                        ctx.fillRect(xCoord, yCoord, 50, 50);
+                        xCoord += 50;    
+                    }
                 } else {
                     xCoord += 50;
                 }
@@ -146,7 +159,7 @@ let lastPressed = 'down';
 let g = new Game();
 g.createPlayer('red');
 // Randomly generate rocks on map
-// g.generateRocks();
+g.generateRocks();
 mainLoop();
 
 
@@ -195,7 +208,7 @@ function mainLoop(){
     let spriteWidth = 64;
     let spriteHeight = 50;
     let spriteScale = 1;
-    let frameRate = g.playerArr[0].speed / 2;
+    let frameRate = (-g.playerArr[0].speed * 2) + 15;
     let totalFrames = frameRate * 8;
 
 //P1 ANIMATIONS
