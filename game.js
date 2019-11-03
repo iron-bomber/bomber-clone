@@ -162,7 +162,7 @@ let lastPressed2 = 'ArrowDown';
 
 let g = new Game();
 g.createPlayer('red', 60, 75, 1, 1, 1);
-g.createPlayer('blue', 760, 760, 1, 15, 15);
+g.createPlayer('blue', 760, 760, 15, 15, 2);
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();
@@ -476,13 +476,13 @@ function mainLoop(){
         drawImgDown2()
     }
 
-    // //DEATH CHECKS
-    if(g.playerArr[0] !== ''){
-        g.playerArr[0].deathCheck();
-    }
-    if(g.playerArr[1] !== ''){
-        g.playerArr[1].deathCheck();
-    }
+    // // //DEATH CHECKS
+    // if(g.playerArr[0] !== ''){
+    //     g.playerArr[0].deathCheck();
+    // }
+    // if(g.playerArr[1] !== ''){
+    //     g.playerArr[1].deathCheck();
+    // }
 
 
 
