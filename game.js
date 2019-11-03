@@ -164,7 +164,7 @@ let lastPressed2 = 'ArrowDown';
 
 let g = new Game();
 g.createPlayer('red', 60, 75, 1, 1, 1);
-g.createPlayer('blue', 760, 760, 1, 15, 15);
+g.createPlayer('blue', 760, 760, 1, 15, 2);
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();

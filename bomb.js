@@ -208,7 +208,7 @@ class Bomb {
             }
             for (let i = g.bombArr.length - 1; i >= 0; i--) {
                 if (g.bombArr[i].bombID === this.bombID) {
-                    bombArr.splice(i,1);
+                    g.bombArr.splice(i,1);
                 }
             }
             delete this;

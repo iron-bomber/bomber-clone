@@ -115,15 +115,18 @@ class Bomber{
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
                 if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
-                    if(bomberLocations[i][j] === "bombpower"){
+                    if(bombMap[i][j] === "bombpower"){
                         this.bombPower++;
+                        bombMap[i][j] = 'free';
                     }
-                    if(bomberLocations[i][j] === "extrabomb"){
+                    if(bombMap[i][j] === "extrabomb"){
                         this.bombAmmo++;
+                        bombMap[i][j] = 'free';
                     }
-                    if(bomberLocations[i][j] === "speed"){
+                    if(bombMap[i][j] === "speed"){
                         if(this.speed < 6){
                             this.speed += 1
+                            bombMap[i][j] = 'free';
                         }
                     }
                     bomberLocations[i][j] = g.playerArr[this.num];
@@ -231,28 +234,6 @@ class Bomber{
     move(){
         
         let theWalls = this.wallDetector();
-        // // Check to see if running into corners
-        // if(!theWalls.up && !theWalls.left){
-        //     if(this.x - this.speed < this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
-        //         theWalls.up = true;
-        //         theWalls.left = true;
-        //     }
-        // } else if(!theWalls.up && !theWalls.right){
-        //     if(this.x + this.speed + this.width > this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
-        //         theWalls.up = true;
-        //         theWalls.right = true;
-        //     }
-        // } else if(!theWalls.down && !theWalls.left){
-        //     if(this.x - this.speed < this.jGrid * 50 && this.y+this.speed+this.height > this.iGrid * 50){
-        //         theWalls.down = true;
-        //         theWalls.left = true;
-        //     }
-        // } else if(!theWalls.down && !theWalls.right){
-        //     if(this.x + this.speed + this.width > this.jGrid * 50 && this.y+this.speed + this.height > this.iGrid * 50){
-        //         theWalls.up = true;
-        //         theWalls.left = true;
-        //     }
-        // }
         //Move Right wall Check
         if(theWalls.right){
             if(this.x + this.speed + this.width > (this.jGrid * 50) + 50 ) {
