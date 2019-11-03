@@ -67,8 +67,8 @@ class Game {
 
     }
 
-    createPlayer(color) {
-        this.playerArr.push(new Bomber(color)); 
+    createPlayer(color, x, y) {
+        this.playerArr.push(new Bomber(color, x, y)); 
         console.log('player created')
     }
 
@@ -149,17 +149,22 @@ class Game {
     }
 }
 
-//SPRITE VARS
+// SPRITE VARS
 let frameCounter = 0;
+let frameCounter2 = 0;
 let ssNum = 0;
+let ssNum2 = 0;
 let idleDecider;
+let idleDecider2;
 let lastPressed = 'down';
+let lastPressed2 = 'ArrowDown';
 
 
 let g = new Game();
-g.createPlayer('red');
+g.createPlayer('red', 60, 75, 1, 1, 1);
+g.createPlayer('blue', 760, 760, 1, 16, 16);
 // Randomly generate rocks on map
-// g.generateRocks();
+g.generateRocks();
 mainLoop();
 
 
@@ -167,12 +172,22 @@ mainLoop();
 function mainLoop(){
     
     //GRID PLACER
-    g.playerArr[0].gridPlacer();
+    if(g.playerArr[0] !== ''){
+        g.playerArr[0].gridPlacer();
+    }
 
+    if(g.playerArr[1] !== ''){
+        g.playerArr[1].gridPlacer();
+    }
 
     //Player 1 Movecheck
     if(g.playerArr[0].moveUp || g.playerArr[0].moveDown || g.playerArr[0].moveLeft || g.playerArr[0].moveRight){
         g.playerArr[0].move();
+    }
+
+    //Player 2 Movecheck
+    if(g.playerArr[1].moveUp || g.playerArr[1].moveDown || g.playerArr[1].moveLeft || g.playerArr[1].moveRight){
+        g.playerArr[1].move();
     }
 
 
@@ -190,15 +205,19 @@ function mainLoop(){
 
     //Drawing Player
     drawSelf(g.playerArr[0]);
+    drawSelf(g.playerArr[1]);
 
     //P1 SPRITES
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     var p1Right = new Image();
     var p1Left = new Image();
     var p1Up = new Image();
     var p1Down = new Image();
 
-    
+
     p1Right.src="./Images/p1/p1WalkRight.png";
     p1Left.src ="./Images/p1/p1WalkLeft.png";
     p1Up.src="./Images/p1/p1WalkUp.png";
@@ -207,11 +226,11 @@ function mainLoop(){
 
     let spriteWidth = 64;
     let spriteHeight = 50;
-    let spriteScale = 1;
-    let frameRate = (-g.playerArr[0].speed * 2) + 15;
+    let spriteScale = 1.3;
+    let frameRate = (-g.playerArr[0].speed * 2) + 10;
     let totalFrames = frameRate * 8;
 
-//P1 ANIMATIONS
+    //P1 ANIMATIONS
     //IDLE ANIMATION
     function drawImgIdle(){
         switch(lastPressed){
@@ -229,7 +248,7 @@ function mainLoop(){
                 break;
         }
         if(frameCounter < totalFrames){
-            ctx.drawImage(idleDecider, 0, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            ctx.drawImage(idleDecider, 0, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
         }
         if(frameCounter == totalFrames - 1){
             ssNum=0;
@@ -240,7 +259,7 @@ function mainLoop(){
     //WALK RIGHT
     function drawImgRight(){
         if(frameCounter < totalFrames){
-            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
         }
         if(frameCounter % frameRate == 0){
             ssNum++;
@@ -254,7 +273,7 @@ function mainLoop(){
     //WALK LEFT
     function drawImgLeft(){
         if(frameCounter < totalFrames){
-            ctx.drawImage(p1Left, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            ctx.drawImage(p1Left, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
 
         }
         if(frameCounter % frameRate == 0){
@@ -269,7 +288,7 @@ function mainLoop(){
     //WALK UP
     function drawImgUp(){
         if(frameCounter < totalFrames){
-            ctx.drawImage(p1Up, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            ctx.drawImage(p1Up, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
         }
         if(frameCounter % frameRate == 0){
             ssNum++;
@@ -283,7 +302,7 @@ function mainLoop(){
     //WALK DOWN
     function drawImgDown(){
         if(frameCounter < totalFrames){
-            ctx.drawImage(p1Down, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 18, g.playerArr[0].y - 28, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            ctx.drawImage(p1Down, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
         }
         if(frameCounter % frameRate == 0){
             ssNum++;
@@ -320,19 +339,167 @@ function mainLoop(){
         drawImgDown()
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    //P2 SPRITES
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    var p2Right = new Image();
+    var p2Left = new Image();
+    var p2Up = new Image();
+    var p2Down = new Image();
+
+
+    p2Right.src="./Images/p2/p2WalkRight.png";
+    p2Left.src ="./Images/p2/p2WalkLeft.png";
+    p2Up.src="./Images/p2/p2WalkUp.png";
+    p2Down.src="./Images/p2/p2WalkDown.png"
+
+
+    let spriteWidth2 = 64;
+    let spriteHeight2 = 53;
+    let spriteScale2 = 1.3;
+    let frameRate2 = (-g.playerArr[1].speed * 2) + 10;
+    let totalFrames2 = frameRate2 * 8;
+
+    //P2 ANIMATIONS
+    //IDLE ANIMATION
+    function drawImgIdle2(){
+        switch(lastPressed2){
+            case "ArrowUp":
+                idleDecider2 = p2Up;
+                break;
+            case "ArrowDown":
+                idleDecider2 = p2Down;
+                break;
+            case "ArrowLeft":
+                idleDecider2 = p2Left;
+                break;
+            case "ArrowRight":
+                idleDecider2 = p2Right;
+                break;
+        }
+        if(frameCounter2 < totalFrames2){
+            ctx.drawImage(idleDecider2, 0, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
+        }
+        if(frameCounter2 == totalFrames2 - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+    //WALK RIGHT
+    function drawImgRight2(){
+        if(frameCounter2 < totalFrames2){
+            ctx.drawImage(p2Right, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
+        }
+        if(frameCounter2 % frameRate2 == 0){
+            ssNum2++;
+        }
+        if(frameCounter2 == totalFrames2 - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+    //WALK LEFT
+    function drawImgLeft2(){
+        if(frameCounter2 < totalFrames2){
+            ctx.drawImage(p2Left, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
+
+        }
+        if(frameCounter2 % frameRate2 == 0){
+            ssNum2++;
+        }
+        if(frameCounter2 == totalFrames2 - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+    //WALK UP
+    function drawImgUp2(){
+        if(frameCounter2 < totalFrames2){
+            ctx.drawImage(p2Up, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
+        }
+        if(frameCounter2 % frameRate2 == 0){
+            ssNum2++;
+        }
+        if(frameCounter2 == totalFrames2 - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+    //WALK DOWN
+    function drawImgDown2(){
+        if(frameCounter2 < totalFrames2){
+            ctx.drawImage(p2Down, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
+        }
+        if(frameCounter2 % frameRate2 == 0){
+            ssNum2++;
+        }
+        if(frameCounter2 == totalFrames2 - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+    //END P2 ANIMATIONS
+
+    if (g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true){
+        drawImgUp2()
+    }
+    else if (g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveDown == true){
+        drawImgDown2()
+    }else if  
+        (  g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true
+        || g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
+        || g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
+        || g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
+        || g.playerArr[1].moveLeft == false && g.playerArr[1].moveRight == false && g.playerArr[1].moveUp == false && g.playerArr[1].moveDown == false
+    ){
+        drawImgIdle2()
+    }
+    else if(g.playerArr[1].moveLeft == true){
+        drawImgLeft2()
+    }else if(g.playerArr[1].moveRight == true){
+        drawImgRight2()
+    }else if(g.playerArr[1].moveUp == true){
+        drawImgUp2()
+    }else if(g.playerArr[1].moveDown == true){
+        drawImgDown2()
+    }
+
+    //DEATH CHECKS
+    if(g.playerArr[0] !== ''){
+        g.playerArr[0].deathCheck();
+    }
+    if(g.playerArr[0] !== ''){
+        g.playerArr[0].deathCheck();
+    }
 
 
 
 
+    //END P2
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
+    // console.log(bombMap, bomberLocations);
 
     //Loop this function 60fps
     requestAnimationFrame(mainLoop);
 
-}
+}// END OF MAIN LOOP
 
 
 
@@ -367,6 +534,34 @@ document.onkeypress = function(e){
     }
 }
 
+document.onkeydown = function(e){
+        //P2
+        if(e.key === "ArrowDown"){
+            console.log(e.key)
+            g.playerArr[1].moveDown = true;
+        }
+        if(e.key === "ArrowUp"){
+            g.playerArr[1].moveUp = true;
+        }
+        if(e.key === "ArrowLeft"){
+            g.playerArr[1].moveLeft = true;
+        }
+        if(e.key === "ArrowRight"){
+            g.playerArr[1].moveRight = true;
+        }
+        if(e.keyCode === 16){
+            if(g.playerArr[1].bombAmmo > 0){
+                if (bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
+                    let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower));
+                    newBomb.gridPlacer();
+                    newBomb.timerExplode();
+                    g.bombArr.push(newBomb);
+                    g.playerArr[1].bombAmmo -= 1;
+                }
+            }
+        }
+}
+
 document.onkeyup = function(e){
     if(e.key === "s"){
         g.playerArr[0].moveDown = false;
@@ -392,4 +587,30 @@ document.onkeyup = function(e){
         frameCounter = 0;
         lastPressed = "right"
     }
-}
+    
+    //P2
+    if(e.key === "ArrowDown"){
+        g.playerArr[1].moveDown = false;
+        ssNum2 = 0;
+        frameCounter2 = 0;
+        lastPressed2 = "ArrowDown";
+    }
+    if(e.key === "ArrowUp"){
+        g.playerArr[1].moveUp = false;
+        ssNum2 = 0;
+        frameCounter2 = 0;
+        lastPressed2 = "ArrowUp";
+    }
+    if(e.key === "ArrowLeft"){
+        g.playerArr[1].moveLeft = false;
+        ssNum2 = 0;
+        frameCounter2 = 0;
+        lastPressed2 = "ArrowLeft"
+    }
+    if(e.key === "ArrowRight"){
+        g.playerArr[1].moveRight = false;
+        ssNum2 = 0;
+        frameCounter2 = 0;
+        lastPressed2 = "ArrowRight"
+    }
+} //END PLAYER 1 COMMANDS

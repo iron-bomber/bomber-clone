@@ -1,19 +1,56 @@
 class Bomber{
-    constructor(color){
+    constructor(color, x, y, iGrid, jGrid, num){
         this.color = color;
-        this.x = 75;
-        this.y = 75;
-        this.width = 20;
-        this.height = 20;
+        this.x = x;
+        this.y = y;
+        this.width = 30;
+        this.height = 30;
         this.moveUp = false;
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 6;
-        this.iGrid = 1;
-        this.jGrid = 1;
+        this.speed = 2;
+        this.iGrid = iGrid;
+        this.jGrid = jGrid;
         this.bombPower = 1;
-        this.bombAmmo = 1;
+        this.bombAmmo = 2;
+        this.num = num;
+    }
+
+    deathCheck(){
+        for (let i = 1; i < bomberLocations.length-1; i++) {
+            for (let j = 1; j < bomberLocations.length-1; j++) {
+                if (bombMap[this.jGrid][this.iGrid] === "boom"){
+                    this.die();
+                }
+            }
+        }
+    }
+
+    die(){
+        ssNum = 0;
+        var p1Right = new Image();
+        p1Right.src="./Images/p1/p1WalkRight.png";
+        function p1death(){
+            let spriteWidth = 64;
+            let spriteHeight = 50;
+            let spriteScale = 1.3;
+            let frameRate = (-g.playerArr[0].speed * 2) + 10;
+            let totalFrames = frameRate * 8;
+            if(frameCounter < totalFrames){
+                ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            }
+            if(frameCounter % frameRate == 0){
+                ssNum++;
+            }
+            if(frameCounter == totalFrames - 1){
+                ssNum=0;
+                frameCounter = 0;
+            }
+            frameCounter++;
+        }
+        p1death();
+        g.playerArr.splice(this.num-1 ,1, '');
     }
 
     wallDetection(){
@@ -89,12 +126,12 @@ class Bomber{
                             this.speed += 1
                         }
                     }
-                    bomberLocations[i][j] = g.playerArr[0];
+                    bomberLocations[i][j] = g.playerArr[this.num-1];
                     this.iGrid = i;
                     this.jGrid = j;
-                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed"){}
-                else{
-                    bomberLocations[i][j] = "free";
+                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed" || bomberLocations[i][j] !== g.playerArr[this.num-1]){}
+                 else {
+                        bomberLocations[i][j] = "free";
                 }
                 xMin += 50;
                 xMax += 50;
@@ -188,18 +225,6 @@ class Bomber{
             }
         }
 ////////////////////////////////////////////////////////
-        console.log(this.x, this.x - this.speed, this.y, this.y-this.speed)
-        console.log( this.jGrid * 50, this.iGrid * 50)
-
-        // //Checks top left 
-        // if (this.y + this.height > this.iGrid * 50 && this.x + this.width > this.jGrid * 50) {
-        //     if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free') {
-        //         theWalls.left = true;
-        //     }
-        //     if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free'){
-
-        //     }
-        // } 
 
         return theWalls;
     }
