@@ -40,6 +40,8 @@ const bomberLocations = [
     ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall']
 ];
 
+let bombIDs = 0;
+
 class Game {
 
     constructor(){
@@ -120,20 +122,20 @@ class Game {
     drawPowers() {
         let xCoord = 50;
         let yCoord = 50;
-        for(let i = 1; i < bomberLocations.length -1; i++) {
-            for (let j = 1; j < bomberLocations.length -1; j++) {
-                if (bomberLocations[i][j] === 'bombpower' || bomberLocations[i][j] === 'extrabomb' || bomberLocations[i][j] === 'speed') {
-                    if(bomberLocations[i][j] === 'bombpower'){
+        for(let i = 1; i < bombMap.length -1; i++) {
+            for (let j = 1; j < bombMap.length -1; j++) {
+                if (bombMap[i][j] === 'bombpower' || bombMap[i][j] === 'extrabomb' || bombMap[i][j] === 'speed') {
+                    if(bombMap[i][j] === 'bombpower'){
                         ctx.fillStyle = 'cyan';
                         ctx.fillRect(xCoord, yCoord, 50, 50);
                         xCoord += 50;
                     }
-                    else if(bomberLocations[i][j] === 'extrabomb'){
+                    else if(bombMap[i][j] === 'extrabomb'){
                         ctx.fillStyle = 'red';
                         ctx.fillRect(xCoord, yCoord, 50, 50);
                         xCoord += 50;
                     }
-                    else if(bomberLocations[i][j] === 'speed'){
+                    else if(bombMap[i][j] === 'speed'){
                         ctx.fillStyle = 'yellow';
                         ctx.fillRect(xCoord, yCoord, 50, 50);
                         xCoord += 50;    
@@ -521,10 +523,13 @@ document.onkeypress = function(e){
     if(e.key === "d"){
         g.playerArr[0].moveRight = true;
     }
+    // Drop bomb
     if(e.keyCode === 32){
         if(g.playerArr[0].bombAmmo > 0){
             if (bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
-                let newBomb = (new Bomb(g.playerArr[0], g.playerArr[0].iGrid, g.playerArr[0].jGrid, g.playerArr[0].bombPower));
+                // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
+                let newBomb = (new Bomb(g.playerArr[0], g.playerArr[0].iGrid, g.playerArr[0].jGrid, g.playerArr[0].bombPower, bombIDs));
+                bombIDs++;
                 newBomb.gridPlacer();
                 newBomb.timerExplode();
                 g.bombArr.push(newBomb);

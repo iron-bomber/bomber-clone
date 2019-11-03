@@ -20,7 +20,7 @@ class Bomber{
     deathCheck(){
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (bombMap[this.jGrid][this.iGrid] === "boom"){
+                if (bombMap[this.iGrid][this.jGrid] === "boom"){
                     this.die();
                 }
             }
@@ -114,14 +114,14 @@ class Bomber{
         // Iterates through the 2d array
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (this.x+this.width/2 >= xMin && this.x-this.width/2 < xMax && this.y+this.height/2 >= yMin && this.y-this.height/2 < yMax) {
-                    if(bomberLocations[i][j] == "bombpower"){
+                if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
+                    if(bomberLocations[i][j] === "bombpower"){
                         this.bombPower++;
                     }
-                    if(bomberLocations[i][j] == "extrabomb"){
+                    if(bomberLocations[i][j] === "extrabomb"){
                         this.bombAmmo++;
                     }
-                    if(bomberLocations[i][j] == "speed"){
+                    if(bomberLocations[i][j] === "speed"){
                         if(this.speed < 6){
                             this.speed += 1
                         }
