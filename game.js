@@ -69,8 +69,8 @@ class Game {
 
     }
 
-    createPlayer(color, x, y) {
-        this.playerArr.push(new Bomber(color, x, y)); 
+    createPlayer(color, x, y, iGrid, jGrid, num) {
+        this.playerArr.push(new Bomber(color, x, y, iGrid, jGrid, num)); 
         console.log('player created')
     }
 
@@ -164,7 +164,7 @@ let lastPressed2 = 'ArrowDown';
 
 let g = new Game();
 g.createPlayer('red', 60, 75, 1, 1, 1);
-g.createPlayer('blue', 760, 760, 1, 16, 16);
+g.createPlayer('blue', 760, 760, 1, 15, 15);
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();
@@ -478,12 +478,12 @@ function mainLoop(){
         drawImgDown2()
     }
 
-    //DEATH CHECKS
+    // //DEATH CHECKS
     if(g.playerArr[0] !== ''){
         g.playerArr[0].deathCheck();
     }
-    if(g.playerArr[0] !== ''){
-        g.playerArr[0].deathCheck();
+    if(g.playerArr[1] !== ''){
+        g.playerArr[1].deathCheck();
     }
 
 
@@ -496,7 +496,7 @@ function mainLoop(){
     ////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    // console.log(bombMap, bomberLocations);
+
 
     //Loop this function 60fps
     requestAnimationFrame(mainLoop);
