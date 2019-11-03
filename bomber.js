@@ -14,13 +14,13 @@ class Bomber{
         this.jGrid = jGrid;
         this.bombPower = 1;
         this.bombAmmo = 2;
-        this.num = num;
+        this.num = num - 1 ;
     }
 
     deathCheck(){
         for (let i = 1; i < bomberLocations.length-1; i++) {
             for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (bombMap[this.jGrid][this.iGrid] === "boom"){
+                if (bombMap[this.iGrid][this.jGrid] === "boom"){
                     this.die();
                 }
             }
@@ -35,10 +35,10 @@ class Bomber{
             let spriteWidth = 64;
             let spriteHeight = 50;
             let spriteScale = 1.3;
-            let frameRate = (-g.playerArr[0].speed * 2) + 10;
+            let frameRate = (-g.playerArr[this.num].speed * 2) + 10;
             let totalFrames = frameRate * 8;
             if(frameCounter < totalFrames){
-                ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+                ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[this.num].x - 22, g.playerArr[this.num].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
             }
             if(frameCounter % frameRate == 0){
                 ssNum++;
@@ -50,7 +50,7 @@ class Bomber{
             frameCounter++;
         }
         p1death();
-        g.playerArr.splice(this.num-1 ,1, '');
+        g.playerArr.splice(this.num, 1, '');
     }
 
     wallDetection(){
@@ -126,10 +126,10 @@ class Bomber{
                             this.speed += 1
                         }
                     }
-                    bomberLocations[i][j] = g.playerArr[this.num-1];
+                    bomberLocations[i][j] = g.playerArr[this.num];
                     this.iGrid = i;
                     this.jGrid = j;
-                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed" || bomberLocations[i][j] !== g.playerArr[this.num-1]){}
+                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed" || bomberLocations[i][j] !== g.playerArr[this.num]){}
                  else {
                         bomberLocations[i][j] = "free";
                 }

@@ -6,7 +6,7 @@ class Bomb {
         this.power = power;
         this.exploding = false;
         this.powerupLocation;
-        this.puPositions = []
+        this.puPositions = [];
         this.type = 'bomb';
     }
 
@@ -175,6 +175,8 @@ class Bomb {
                 }
             }
             console.log(this.puPositions)
+            console.log(bombMap, bomberLocations);
+            console.log(g.playerArr[0].iGrid, g.playerArr[0].jGrid, )
             switch(this.puPositions.length){
                 case 2:
                     this.placeRandomPowerup(this.puPositions[0], this.puPositions[1]);
