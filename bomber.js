@@ -229,8 +229,31 @@ class Bomber{
         return theWalls;
     }
     move(){
+        
         let theWalls = this.wallDetector();
-        //Move Right OOB Check
+        // // Check to see if running into corners
+        // if(!theWalls.up && !theWalls.left){
+        //     if(this.x - this.speed < this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
+        //         theWalls.up = true;
+        //         theWalls.left = true;
+        //     }
+        // } else if(!theWalls.up && !theWalls.right){
+        //     if(this.x + this.speed + this.width > this.jGrid * 50 && this.y-this.speed < this.iGrid * 50){
+        //         theWalls.up = true;
+        //         theWalls.right = true;
+        //     }
+        // } else if(!theWalls.down && !theWalls.left){
+        //     if(this.x - this.speed < this.jGrid * 50 && this.y+this.speed+this.height > this.iGrid * 50){
+        //         theWalls.down = true;
+        //         theWalls.left = true;
+        //     }
+        // } else if(!theWalls.down && !theWalls.right){
+        //     if(this.x + this.speed + this.width > this.jGrid * 50 && this.y+this.speed + this.height > this.iGrid * 50){
+        //         theWalls.up = true;
+        //         theWalls.left = true;
+        //     }
+        // }
+        //Move Right wall Check
         if(theWalls.right){
             if(this.x + this.speed + this.width > (this.jGrid * 50) + 50 ) {
                 for(let i = 0; i < this.speed; i++){
@@ -249,7 +272,7 @@ class Bomber{
             }
         }
 
-        //Move Left OOB Check
+        //Move Left wall Check
         if(theWalls.left){ 
             if(this.x - this.speed < (this.jGrid * 50)) {
                 for(let i = 0; i < this.speed; i++){
@@ -268,7 +291,7 @@ class Bomber{
             }
         }
 
-        //Move Down OOB Check
+        //Move Down wall Check
         if(theWalls.down){
             if(this.y  + this.height + this.speed > (this.iGrid * 50) + 50) {
                 for(let i = 0; i < this.speed; i++){
@@ -287,7 +310,7 @@ class Bomber{
             }
         }
 
-        //Move Up OOB Check
+        //Move Up wall Check
         if(theWalls.up){
             if(this.y - this.speed < this.iGrid * 50) {
                 for(let i = 0; i < this.speed; i++){
