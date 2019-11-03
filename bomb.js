@@ -1,5 +1,5 @@
 class Bomb {
-    constructor(owner, iGrid, jGrid, power) {
+    constructor(owner, iGrid, jGrid, power, bombID) {
         this.owner = owner;
         this.iGrid = iGrid;
         this.jGrid = jGrid;
@@ -8,6 +8,7 @@ class Bomb {
         this.powerupLocation;
         this.puPositions = [];
         this.type = 'bomb';
+        this.bombID = bombID;
     }
 
     placeRandomPowerup(x, y){
@@ -43,7 +44,9 @@ class Bomb {
                             bombMap[this.iGrid-i][this.jGrid].explode();
                             rockCollide.up = true;
                         }
-                    }else {
+                    } else if (bombMap[this.iGrid-i][this.jGrid] === 'boom') {
+                        // do nothing
+                    } else {
                         rockCollide.up = true;
                     }
                 } else {
@@ -52,7 +55,7 @@ class Bomb {
             }
             // Explode below
             if (!rockCollide.down) {
-                if (this.iGrid+i < 15) {
+                if (this.iGrid+i < 16) {
                     if (bombMap[this.iGrid+i][this.jGrid] === 'free') {
                         bombMap[this.iGrid+i][this.jGrid] = 'boom';
                     } else if (bombMap[this.iGrid+i][this.jGrid] === 'rock') {
@@ -66,7 +69,9 @@ class Bomb {
                             bombMap[this.iGrid+i][this.jGrid].explode();
                             rockCollide.down = true;
                         }
-                    } else {
+                    } else if (bombMap[this.iGrid+i][this.jGrid] === 'boom') {
+                        // do nothing
+                    }else {
                         rockCollide.down = true;
                     }
                 } else {
@@ -75,7 +80,7 @@ class Bomb {
             }
             // Explode right
             if (!rockCollide.right) {
-                if (this.jGrid+i < 15) {
+                if (this.jGrid+i < 16) {
                     if (bombMap[this.iGrid][this.jGrid+i] === 'free') {
                         bombMap[this.iGrid][this.jGrid+i] = 'boom';
                     } else if (bombMap[this.iGrid][this.jGrid+i] === 'rock') {
@@ -89,6 +94,8 @@ class Bomb {
                             bombMap[this.iGrid][this.jGrid+i].explode();
                             rockCollide.right = true;
                         }
+                    } else if (bombMap[this.iGrid][this.jGrid+i] === 'boom'){
+                        // do nothing
                     }else {
                         rockCollide.right = true;
                     }
@@ -112,7 +119,9 @@ class Bomb {
                             bombMap[this.iGrid][this.jGrid-i].explode();
                             rockCollide.left = true;
                         }
-                    }else {
+                    } else if (bombMap[this.iGrid][this.jGrid-i] === 'boom') {
+                        // do nothing
+                    } else {
                         rockCollide.left = true;
                     }
                 } else {
@@ -139,7 +148,7 @@ class Bomb {
                 }
                 // Clear below
                 if (!rockCollide.down) {
-                    if (this.iGrid+i < 15) {
+                    if (this.iGrid+i < 16) {
                         if (bombMap[this.iGrid+i][this.jGrid] === 'boom') {
                             bombMap[this.iGrid+i][this.jGrid] = 'free';
                         } else {
@@ -197,6 +206,11 @@ class Bomb {
                     this.placeRandomPowerup(this.puPositions[6], this.puPositions[7]);
                     break;
             }
+            for (let i = g.bombArr.length - 1; i >= 0; i--) {
+                if (g.bombArr[i].bombID === this.bombID) {
+                    bombArr.splice(i,1);
+                }
+            }
             delete this;
         }, 300)
     }
@@ -206,6 +220,7 @@ class Bomb {
         setTimeout(() => {
             if (!this.exploding) {
                 this.explode();
+                this.exploding = true;
             }
         }, 3000)       
     }
