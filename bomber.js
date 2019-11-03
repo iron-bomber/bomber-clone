@@ -17,41 +17,41 @@ class Bomber{
         this.num = num - 1 ;
     }
 
-    deathCheck(){
-        for (let i = 1; i < bomberLocations.length-1; i++) {
-            for (let j = 1; j < bomberLocations.length-1; j++) {
-                if (bombMap[this.iGrid][this.jGrid] === "boom"){
-                    this.die();
-                }
-            }
-        }
-    }
+    // deathCheck(){
+    //     for (let i = 1; i < bomberLocations.length-1; i++) {
+    //         for (let j = 1; j < bomberLocations.length-1; j++) {
+    //             if (bombMap[this.jGrid][this.iGrid] === "boom"){
+    //                 this.die();
+    //             }
+    //         }
+    //     }
+    // }
 
-    die(){
-        ssNum = 0;
-        var p1Right = new Image();
-        p1Right.src="./Images/p1/p1WalkRight.png";
-        function p1death(){
-            let spriteWidth = 64;
-            let spriteHeight = 50;
-            let spriteScale = 1.3;
-            let frameRate = (-g.playerArr[this.num].speed * 2) + 10;
-            let totalFrames = frameRate * 8;
-            if(frameCounter < totalFrames){
-                ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[this.num].x - 22, g.playerArr[this.num].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-            }
-            if(frameCounter % frameRate == 0){
-                ssNum++;
-            }
-            if(frameCounter == totalFrames - 1){
-                ssNum=0;
-                frameCounter = 0;
-            }
-            frameCounter++;
-        }
-        p1death();
-        g.playerArr.splice(this.num, 1, '');
-    }
+    // die(){
+    //     ssNum = 0;
+    //     var p1Right = new Image();
+    //     p1Right.src="./Images/p1/p1WalkRight.png";
+    //     function p1death(){
+    //         let spriteWidth = 64;
+    //         let spriteHeight = 50;
+    //         let spriteScale = 1.3;
+    //         let frameRate = (-g.playerArr[0].speed * 2) + 10;
+    //         let totalFrames = frameRate * 8;
+    //         if(frameCounter < totalFrames){
+    //             ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[this.num].x - 22, g.playerArr[this.num].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+    //         }
+    //         if(frameCounter % frameRate == 0){
+    //             ssNum++;
+    //         }
+    //         if(frameCounter == totalFrames - 1){
+    //             ssNum=0;
+    //             frameCounter = 0;
+    //         }
+    //         frameCounter++;
+    //     }
+    //     p1death();
+    //     g.playerArr.splice(this.num, 1, '');
+    // }
 
     wallDetection(){
         
@@ -232,9 +232,8 @@ class Bomber{
         return theWalls;
     }
     move(){
-        
         let theWalls = this.wallDetector();
-        //Move Right wall Check
+        //Move Right OOB Check
         if(theWalls.right){
             if(this.x + this.speed + this.width > (this.jGrid * 50) + 50 ) {
                 for(let i = 0; i < this.speed; i++){
@@ -253,7 +252,7 @@ class Bomber{
             }
         }
 
-        //Move Left wall Check
+        //Move Left OOB Check
         if(theWalls.left){ 
             if(this.x - this.speed < (this.jGrid * 50)) {
                 for(let i = 0; i < this.speed; i++){
@@ -272,7 +271,7 @@ class Bomber{
             }
         }
 
-        //Move Down wall Check
+        //Move Down OOB Check
         if(theWalls.down){
             if(this.y  + this.height + this.speed > (this.iGrid * 50) + 50) {
                 for(let i = 0; i < this.speed; i++){
@@ -291,7 +290,7 @@ class Bomber{
             }
         }
 
-        //Move Up wall Check
+        //Move Up OOB Check
         if(theWalls.up){
             if(this.y - this.speed < this.iGrid * 50) {
                 for(let i = 0; i < this.speed; i++){
