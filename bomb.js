@@ -11,20 +11,16 @@ class Bomb {
     }
 
     placeRandomPowerup(x, y){
-        console.log('placing powerup')
         let random = Math.floor(Math.random() * 3);
         let powers = [
-            "bombpower",
             "speed",
-            "extrabomb"
+            "speed",
+            "speed"
         ]
-        console.log(bomberLocations)
-        if(0.75 < Math.random()){
+        if(0.1 < Math.random()){
             bomberLocations[x][y] = powers[random];
         }
-        console.log(bomberLocations)
     }
-
 
 
     explode() {
