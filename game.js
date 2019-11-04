@@ -186,6 +186,9 @@ function mainLoop(){
 // }s
 
 //PLAYER COMMANDS
+
+
+
 document.onkeypress = function(e){
     if(e.key === "s" || e.key === "S"){
         g.playerArr[0].moveDown = true;
