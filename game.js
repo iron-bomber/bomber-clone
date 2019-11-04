@@ -8,11 +8,11 @@ class Game {
         this.spriteArr = [];
     }
 
-    // Randomly generates rocks into the 2d Array bombMap
+    // Randomly generates rocks into the 2d Array m.bombMap
     generateRocks() {
-        for (let i = 1; i < bombMap.length-1; i++) {
-            for(let j = 1; j < bombMap.length-1; j++) {
-                if (bombMap[i][j] === 'wall') {
+        for (let i = 1; i < m.bombMap.length-1; i++) {
+            for(let j = 1; j < m.bombMap.length-1; j++) {
+                if (m.bombMap[i][j] === 'wall') {
                     continue;
                 }else if ((j < 3 || j > 13) && (i === 1 || i === 15)) {
                     continue;
@@ -20,7 +20,7 @@ class Game {
                     continue;
                 } else {
                     if (Math.random() > 0.25) {
-                        bombMap[i][j] = 'rock';
+                        m.bombMap[i][j] = 'rock';
                     }
                 }
             }
@@ -29,17 +29,15 @@ class Game {
     }
     // Creates bomber and places him in bomber array
     createPlayer(color, x, y, iGrid, jGrid, num) {
-        let theBomber = new Bomber(color, x, y, iGrid, jGrid, num);
-        this.playerArr.push(theBomber); 
+        this.playerArr.push(new Bomber(color, x, y, iGrid, jGrid, num)); 
     }
 
     // Creates a sprite for each bomber
     createSprite(left, right, up, down, death, lastPressed, bomberID, height) {
-        let bomberSprite = new Sprite(left, right, up, down, death, lastPressed, bomberID, height);
-        this.spriteArr.push(bomberSprite);
+        this.spriteArr.push(new Sprite(left, right, up, down, death, lastPressed, bomberID, height));
     }
 
-    //Draws the map based on the 2d Array bombMap
+    //Draws the map based on the 2d Array m.bombMap
     createMap() {
         var leftWall = new Image();
         leftWall.src="./Images/leftWall.png";
@@ -47,15 +45,15 @@ class Game {
         rock.src="./Images/rock.png";
         let xCoord = 0;
         let yCoord = 0;
-        for(let i = 0; i < bombMap.length; i++) {
-            for (let j = 0; j < bombMap.length; j++) {
-                if (bombMap[i][j] === 'wall') {
+        for(let i = 0; i < m.bombMap.length; i++) {
+            for (let j = 0; j < m.bombMap.length; j++) {
+                if (m.bombMap[i][j] === 'wall') {
                     ctx.drawImage(rock, 256, 128, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
-                } else if (bombMap[i][j] === 'rock') {
+                } else if (m.bombMap[i][j] === 'rock') {
                     ctx.drawImage(rock, 0, 128, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
-                }else if (typeof bombMap[i][j] === 'object') {
+                }else if (typeof m.bombMap[i][j] === 'object') {
                     ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     //bomb Gray
                     ctx.fillStyle = '#C0C0C0';
@@ -63,26 +61,26 @@ class Game {
                     ctx.arc(xCoord + 25, yCoord + 25, 12, 0, 2 * Math.PI);
                     ctx.fill();
                     xCoord += 50;
-                } else if (typeof bombMap[i][j] === 'number') {
+                } else if (typeof m.bombMap[i][j] === 'number') {
                     // ctx.fillStyle = 'green';
                     // ctx.fillRect(xCoord, yCoord, 50, 50);
                     //explosion orange
                     ctx.fillStyle = '#FF9900';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
-                } else if(bombMap[i][j] === 'bombpower'){
+                } else if(m.bombMap[i][j] === 'bombpower'){
                     ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'red';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
                     xCoord += 50;
                 }
-                else if(bombMap[i][j] === 'extrabomb'){
+                else if(m.bombMap[i][j] === 'extrabomb'){
                     ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'cyan';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
                     xCoord += 50;
                 }
-                else if(bombMap[i][j] === 'speed'){
+                else if(m.bombMap[i][j] === 'speed'){
                     ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'yellow';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
@@ -114,11 +112,10 @@ function mainLoop(){
                     console.log(`Player ${j+1} score: ${playerScores[`p${j+1}`]}`);
                 }
             }
-            playersLeft = 0;
-            setTimeout(() => {
-
-            }, 1000);
         }
+        playersLeft = 0;
+        
+        initializeGame();
     }
     //GRID PLACER & MoveCheck
     for (let i = 0; i < g.playerArr.length; i++) {
@@ -206,7 +203,7 @@ document.onkeypress = function(e){
     if(e.keyCode === 32){
         e.preventDefault();
         if(g.playerArr[0].bombAmmo > 0){
-            if (bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
+            if (m.bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
                 // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
                 let newBomb = (new Bomb(g.playerArr[0], g.playerArr[0].iGrid, g.playerArr[0].jGrid, g.playerArr[0].bombPower, bombIDs));
                 bombIDs++;
@@ -239,7 +236,7 @@ document.onkeydown = function(e){
         if(e.keyCode === 16){
             e.preventDefault();
             if(g.playerArr[1].bombAmmo > 0){
-                if (bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
+                if (m.bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
                     let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower, bombIDs));
                     bombIDs++;
                     newBomb.gridPlacer();
@@ -287,8 +284,14 @@ document.onkeyup = function(e){
         g.spriteArr[1].lastPressed = "right"
     }
 } //END PLAYER 1 COMMANDS
+
+let g;
+let m;
 function initializeGame() {
-    let g = new Game();
+    g = new Game();
+    m = new BombMap();
+    playerOneDead = false;
+    playerTwoDead = false;
     g.createPlayer('red', 60, 75, 1, 1, 1);
     g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
     g.createPlayer('blue', 760, 760, 15, 15, 2);
@@ -296,11 +299,10 @@ function initializeGame() {
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
-    mainLoop();
 }
 
 initializeGame();
-
+mainLoop();
 
 
 
