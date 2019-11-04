@@ -134,57 +134,8 @@ function mainLoop(){
     // for (let i = 0; i < g.playerArr.length; i++) {
     //     g.drawPlayer(g.playerArr[i]);
     // }
-    if (playerOneDead) {
-        let spriteWidth = 64;
-        let spriteHeight = 50;
-        let spriteScale = 1.3;
-        let frameRate = 6;
-        let totalFrames = frameRate * 12;
-        if(!deathDone){
-            if(ssNum < 6){
-                if(frameCounter < totalFrames){
-                    ctx.drawImage(p1Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-                }
-            }else{
-                ctx.drawImage(p1Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-            }
 
-
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            deathDone = true;
-        }
-        frameCounter++;
-    }
-    if (playerTwoDead) {
-        let spriteWidth = 64;
-        let spriteHeight = 53;
-        let spriteScale = 1.3;
-        let frameRate = 6;
-        let totalFrames = frameRate * 12;
-        if(!deathDone2){
-            if(ssNum2 < 6){
-                if(frameCounter2 < totalFrames){
-                    ctx.drawImage(p2Death, spriteWidth*ssNum2, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-                }
-            }else{
-                ctx.drawImage(p2Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-            }
-
-
-        }
-        if(frameCounter2 % frameRate == 0){
-            ssNum2++;
-        }
-        if(frameCounter2 == totalFrames - 1){
-            deathDone2 = true;
-        }
-        frameCounter2++;
-    }
-
+    
     //PLAYER SPRITES
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
