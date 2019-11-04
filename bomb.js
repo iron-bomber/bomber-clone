@@ -24,36 +24,36 @@ class Bomb {
 
     explode() {
         // Kill bomber standing on bomb
-        if (typeof bomberLocations[this.iGrid][this.jGrid] === 'object') {
-            bomberLocations[this.iGrid][this.jGrid].die();
+        if (typeof m.bomberLocations[this.iGrid][this.jGrid] === 'object') {
+            m.bomberLocations[this.iGrid][this.jGrid].die();
         }
-        bombMap[this.iGrid][this.jGrid] = this.bombID;
+        m.bombMap[this.iGrid][this.jGrid] = this.bombID;
         let rockCollide = {up: false, down: false, left: false, right: false};
         for (let i = 1; i < this.power+1; i++){
             // Explode above, checking for walls & bombs
             if (!rockCollide.up) {
                 if (this.iGrid-i >= 0) {
                     // Kill bomber in blast radius above
-                    if (typeof bomberLocations[this.iGrid-i][this.jGrid] === 'object') {
-                        bomberLocations[this.iGrid-i][this.jGrid].die();
+                    if (typeof m.bomberLocations[this.iGrid-i][this.jGrid] === 'object') {
+                        m.bomberLocations[this.iGrid-i][this.jGrid].die();
                     }
-                    if (bombMap[this.iGrid-i][this.jGrid] === 'free') {
-                        bombMap[this.iGrid-i][this.jGrid] = this.bombID;
-                    } else if (bombMap[this.iGrid-i][this.jGrid] === 'rock') {
+                    if (m.bombMap[this.iGrid-i][this.jGrid] === 'free') {
+                        m.bombMap[this.iGrid-i][this.jGrid] = this.bombID;
+                    } else if (m.bombMap[this.iGrid-i][this.jGrid] === 'rock') {
                         // Negative bombID to signal possible powerup spawn under rock
-                        bombMap[this.iGrid-i][this.jGrid] = -this.bombID;
+                        m.bombMap[this.iGrid-i][this.jGrid] = -this.bombID;
                         rockCollide.up = true;
-                    } else if (typeof bombMap[this.iGrid-i][this.jGrid] === 'object') {
+                    } else if (typeof m.bombMap[this.iGrid-i][this.jGrid] === 'object') {
                         // Explode bombs in blast radius above
-                        bombMap[this.iGrid-i][this.jGrid].exploding = true;
-                        bombMap[this.iGrid-i][this.jGrid].explode();
+                        m.bombMap[this.iGrid-i][this.jGrid].exploding = true;
+                        m.bombMap[this.iGrid-i][this.jGrid].explode();
                         rockCollide.up = true;
-                    } else if (typeof bombMap[this.iGrid-i][this.jGrid] === 'number') {
+                    } else if (typeof m.bombMap[this.iGrid-i][this.jGrid] === 'number') {
                         // Overwrites previous bombs blast
-                        bombMap[this.iGrid-i][this.jGrid] = this.bombID;
-                    } else if (bombMap[this.iGrid-i][this.jGrid] === 'bombpower' || bombMap[this.iGrid-i][this.jGrid] === 'extrabomb' || bombMap[this.iGrid-i][this.jGrid] === 'speed' ){
+                        m.bombMap[this.iGrid-i][this.jGrid] = this.bombID;
+                    } else if (m.bombMap[this.iGrid-i][this.jGrid] === 'bombpower' || m.bombMap[this.iGrid-i][this.jGrid] === 'extrabomb' || m.bombMap[this.iGrid-i][this.jGrid] === 'speed' ){
                         // Destroys any powerups in space
-                        bombMap[this.iGrid-i][this.jGrid] = this.bombID;
+                        m.bombMap[this.iGrid-i][this.jGrid] = this.bombID;
                     }else {
                         rockCollide.up = true;
                     }
@@ -64,27 +64,27 @@ class Bomb {
             // Explode below, checking for walls & bombs
             if (!rockCollide.down) {
                 // Kill bomber in blast radius below
-                if (typeof bomberLocations[this.iGrid+i][this.jGrid] === 'object') {
-                    bomberLocations[this.iGrid+i][this.jGrid].die();
+                if (typeof m.bomberLocations[this.iGrid+i][this.jGrid] === 'object') {
+                    m.bomberLocations[this.iGrid+i][this.jGrid].die();
                 }
                 if (this.iGrid+i < 16) {
-                    if (bombMap[this.iGrid+i][this.jGrid] === 'free') {
-                        bombMap[this.iGrid+i][this.jGrid] = this.bombID;
-                    } else if (bombMap[this.iGrid+i][this.jGrid] === 'rock') {
+                    if (m.bombMap[this.iGrid+i][this.jGrid] === 'free') {
+                        m.bombMap[this.iGrid+i][this.jGrid] = this.bombID;
+                    } else if (m.bombMap[this.iGrid+i][this.jGrid] === 'rock') {
                         // Negative bombID to signal possible powerup spawn under rock
-                        bombMap[this.iGrid+i][this.jGrid] = -this.bombID;
+                        m.bombMap[this.iGrid+i][this.jGrid] = -this.bombID;
                         rockCollide.down = true;
-                    }else if (typeof bombMap[this.iGrid+i][this.jGrid] === 'object') {
+                    }else if (typeof m.bombMap[this.iGrid+i][this.jGrid] === 'object') {
                         // Explode bombs in blast radius below
-                        bombMap[this.iGrid+i][this.jGrid].exploding = true;
-                        bombMap[this.iGrid+i][this.jGrid].explode();
+                        m.bombMap[this.iGrid+i][this.jGrid].exploding = true;
+                        m.bombMap[this.iGrid+i][this.jGrid].explode();
                         rockCollide.down = true;
-                    } else if (typeof bombMap[this.iGrid+i][this.jGrid] === 'number') {
+                    } else if (typeof m.bombMap[this.iGrid+i][this.jGrid] === 'number') {
                         // Overwrites previous bombs blast
-                        bombMap[this.iGrid+i][this.jGrid] = this.bombID;
-                    }else if (bombMap[this.iGrid+i][this.jGrid] === 'bombpower' || bombMap[this.iGrid+i][this.jGrid] === 'extrabomb' || bombMap[this.iGrid+i][this.jGrid] === 'speed' ){
+                        m.bombMap[this.iGrid+i][this.jGrid] = this.bombID;
+                    }else if (m.bombMap[this.iGrid+i][this.jGrid] === 'bombpower' || m.bombMap[this.iGrid+i][this.jGrid] === 'extrabomb' || m.bombMap[this.iGrid+i][this.jGrid] === 'speed' ){
                         // Destroys any powerups in space
-                        bombMap[this.iGrid+i][this.jGrid] = this.bombID;
+                        m.bombMap[this.iGrid+i][this.jGrid] = this.bombID;
                     }else {
                         rockCollide.down = true;
                     }
@@ -95,27 +95,27 @@ class Bomb {
             // Explode right, checking for walls & bombs
             if (!rockCollide.right) {
                 // Kill bomber in blast radius right
-                if (typeof bomberLocations[this.iGrid][this.jGrid+i] === 'object') {
-                    bomberLocations[this.iGrid][this.jGrid+i].die();
+                if (typeof m.bomberLocations[this.iGrid][this.jGrid+i] === 'object') {
+                    m.bomberLocations[this.iGrid][this.jGrid+i].die();
                 }
                 if (this.jGrid+i < 16) {
-                    if (bombMap[this.iGrid][this.jGrid+i] === 'free') {
-                        bombMap[this.iGrid][this.jGrid+i] = this.bombID;
-                    } else if (bombMap[this.iGrid][this.jGrid+i] === 'rock') {
+                    if (m.bombMap[this.iGrid][this.jGrid+i] === 'free') {
+                        m.bombMap[this.iGrid][this.jGrid+i] = this.bombID;
+                    } else if (m.bombMap[this.iGrid][this.jGrid+i] === 'rock') {
                         // Negative bombID to signal possible powerup spawn under rock
-                        bombMap[this.iGrid][this.jGrid+i] = -this.bombID;
+                        m.bombMap[this.iGrid][this.jGrid+i] = -this.bombID;
                         rockCollide.right = true;
-                    } else if (typeof bombMap[this.iGrid][this.jGrid+i] === 'object') {
+                    } else if (typeof m.bombMap[this.iGrid][this.jGrid+i] === 'object') {
                         // Explode bombs in blast radius right
-                        bombMap[this.iGrid][this.jGrid+i].exploding = true;
-                        bombMap[this.iGrid][this.jGrid+i].explode();
+                        m.bombMap[this.iGrid][this.jGrid+i].exploding = true;
+                        m.bombMap[this.iGrid][this.jGrid+i].explode();
                         rockCollide.right = true;
-                    } else if (typeof bombMap[this.iGrid][this.jGrid+i] === 'number'){
+                    } else if (typeof m.bombMap[this.iGrid][this.jGrid+i] === 'number'){
                         // Overwrites previous bombs blast
-                        bombMap[this.iGrid][this.jGrid+i] = this.bombID;
-                    }else if (bombMap[this.iGrid][this.jGrid+i] === 'bombpower' || bombMap[this.iGrid][this.jGrid+i] === 'extrabomb' || bombMap[this.iGrid][this.jGrid+i] === 'speed' ){
+                        m.bombMap[this.iGrid][this.jGrid+i] = this.bombID;
+                    }else if (m.bombMap[this.iGrid][this.jGrid+i] === 'bombpower' || m.bombMap[this.iGrid][this.jGrid+i] === 'extrabomb' || m.bombMap[this.iGrid][this.jGrid+i] === 'speed' ){
                         // Destroys any powerups in space
-                        bombMap[this.iGrid][this.jGrid+i] = this.bombID;
+                        m.bombMap[this.iGrid][this.jGrid+i] = this.bombID;
                     }else {
                         rockCollide.right = true;
                     }
@@ -126,27 +126,27 @@ class Bomb {
             // Explode left, checking for walls & bombs
             if (!rockCollide.left) {
                 // Kill bomber in blast radius left
-                if (typeof bomberLocations[this.iGrid][this.jGrid-i] === 'object') {
-                    bomberLocations[this.iGrid][this.jGrid-i].die();
+                if (typeof m.bomberLocations[this.iGrid][this.jGrid-i] === 'object') {
+                    m.bomberLocations[this.iGrid][this.jGrid-i].die();
                 }
                 if (this.jGrid-i >= 0) {
-                    if (bombMap[this.iGrid][this.jGrid-i] === 'free') {
-                        bombMap[this.iGrid][this.jGrid-i] = this.bombID;
-                    } else if (bombMap[this.iGrid][this.jGrid-i] === 'rock') {
+                    if (m.bombMap[this.iGrid][this.jGrid-i] === 'free') {
+                        m.bombMap[this.iGrid][this.jGrid-i] = this.bombID;
+                    } else if (m.bombMap[this.iGrid][this.jGrid-i] === 'rock') {
                         // Negative bombID to signal possible powerup spawn under rock
-                        bombMap[this.iGrid][this.jGrid-i] = -this.bombID;
+                        m.bombMap[this.iGrid][this.jGrid-i] = -this.bombID;
                         rockCollide.left = true;
-                    } else if (typeof bombMap[this.iGrid][this.jGrid-i] === 'object') {
+                    } else if (typeof m.bombMap[this.iGrid][this.jGrid-i] === 'object') {
                         // Explode bombs in blast radius left
-                        bombMap[this.iGrid][this.jGrid-i].exploding = true;
-                        bombMap[this.iGrid][this.jGrid-i].explode();
+                        m.bombMap[this.iGrid][this.jGrid-i].exploding = true;
+                        m.bombMap[this.iGrid][this.jGrid-i].explode();
                         rockCollide.left = true;
-                    } else if (typeof bombMap[this.iGrid][this.jGrid-i] === 'number') {
+                    } else if (typeof m.bombMap[this.iGrid][this.jGrid-i] === 'number') {
                         // Overwrites previous bombs blast
-                        bombMap[this.iGrid][this.jGrid-i] = this.bombID;
-                    }else if (bombMap[this.iGrid][this.jGrid-i] === 'bombpower' || bombMap[this.iGrid][this.jGrid-i] === 'extrabomb' || bombMap[this.iGrid][this.jGrid-i] === 'speed' ){
+                        m.bombMap[this.iGrid][this.jGrid-i] = this.bombID;
+                    }else if (m.bombMap[this.iGrid][this.jGrid-i] === 'bombpower' || m.bombMap[this.iGrid][this.jGrid-i] === 'extrabomb' || m.bombMap[this.iGrid][this.jGrid-i] === 'speed' ){
                         // Destroys any powerups in space
-                        bombMap[this.iGrid][this.jGrid-i] = this.bombID;
+                        m.bombMap[this.iGrid][this.jGrid-i] = this.bombID;
                     } else {
                         rockCollide.left = true;
                     }
@@ -161,49 +161,43 @@ class Bomb {
         // Sets spaces back into free after bomb blast
         setTimeout(() => {
             // Checks to see if the space has been overwritten by new bomb blast
-            if (bombMap[this.iGrid][this.jGrid] === this.bombID) {
-                bombMap[this.iGrid][this.jGrid] = 'free';
+            if (m.bombMap[this.iGrid][this.jGrid] === this.bombID) {
+                m.bombMap[this.iGrid][this.jGrid] = 'free';
             }        
             for (let i = 1; i < this.power+1; i++){
                 // Clear above
                 if (this.iGrid-i >= 0) {
                     // Checks to see if the space has been overwritten by new bomb blast
-                    if (bombMap[this.iGrid-i][this.jGrid] === this.bombID) {
-                        bombMap[this.iGrid-i][this.jGrid] = 'free';
-                    } else if (bombMap[this.iGrid-i][this.jGrid] === -this.bombID){
+                    if (m.bombMap[this.iGrid-i][this.jGrid] === this.bombID) {
+                        m.bombMap[this.iGrid-i][this.jGrid] = 'free';
+                    } else if (m.bombMap[this.iGrid-i][this.jGrid] === -this.bombID){
                         // Places random powerup if space previously contained a rock
-                        bombMap[this.iGrid-i][this.jGrid] = this.placeRandomPowerup();
+                        m.bombMap[this.iGrid-i][this.jGrid] = this.placeRandomPowerup();
                     }
                 }
                 // Clear below
                 if (this.iGrid+i < 16) {
-                    if (bombMap[this.iGrid+i][this.jGrid] === this.bombID) {
-                        bombMap[this.iGrid+i][this.jGrid] = 'free';
-                    } else if (bombMap[this.iGrid+i][this.jGrid] === -this.bombID){
-                        bombMap[this.iGrid+i][this.jGrid] = this.placeRandomPowerup();
+                    if (m.bombMap[this.iGrid+i][this.jGrid] === this.bombID) {
+                        m.bombMap[this.iGrid+i][this.jGrid] = 'free';
+                    } else if (m.bombMap[this.iGrid+i][this.jGrid] === -this.bombID){
+                        m.bombMap[this.iGrid+i][this.jGrid] = this.placeRandomPowerup();
                     }
                 }
                 // Clear right
                 if (this.jGrid+i < 16) {
-                    if (bombMap[this.iGrid][this.jGrid+i] === this.bombID) {
-                        bombMap[this.iGrid][this.jGrid+i] = 'free';
-                    } else if (bombMap[this.iGrid][this.jGrid+i] === -this.bombID){
-                        bombMap[this.iGrid][this.jGrid+i] = this.placeRandomPowerup();
+                    if (m.bombMap[this.iGrid][this.jGrid+i] === this.bombID) {
+                        m.bombMap[this.iGrid][this.jGrid+i] = 'free';
+                    } else if (m.bombMap[this.iGrid][this.jGrid+i] === -this.bombID){
+                        m.bombMap[this.iGrid][this.jGrid+i] = this.placeRandomPowerup();
                     }
                 }
                 // Clear left
                 if (this.jGrid-i >= 0) {
-                    if (bombMap[this.iGrid][this.jGrid-i] === this.bombID) {
-                        bombMap[this.iGrid][this.jGrid-i] = 'free';
-                    } else if (bombMap[this.iGrid][this.jGrid-i] === -this.bombID){
-                        bombMap[this.iGrid][this.jGrid-i] = this.placeRandomPowerup();
+                    if (m.bombMap[this.iGrid][this.jGrid-i] === this.bombID) {
+                        m.bombMap[this.iGrid][this.jGrid-i] = 'free';
+                    } else if (m.bombMap[this.iGrid][this.jGrid-i] === -this.bombID){
+                        m.bombMap[this.iGrid][this.jGrid-i] = this.placeRandomPowerup();
                     }
-                }
-            }
-            // Removes bomb from bomb array
-            for (let i = g.bombArr.length - 1; i >= 0; i--) {
-                if (g.bombArr[i].bombID === this.bombID) {
-                    g.bombArr.splice(i,1);
                 }
             }
             // Deletes the bomb
@@ -223,7 +217,7 @@ class Bomb {
     }
 
     gridPlacer () {
-        bombMap[this.iGrid][this.jGrid] = this;
+        m.bombMap[this.iGrid][this.jGrid] = this;
     }
 
 }

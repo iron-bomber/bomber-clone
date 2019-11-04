@@ -28,7 +28,8 @@ class Bomber{
             playerTwoX = this.x;
             playerTwoY = this.y;
         }
-        bomberLocations[this.iGrid][this.jGrid] = 'free';
+        m.bomberLocations[this.iGrid][this.jGrid] = 'free';
+        playersLeft--;
         g.playerArr.splice(this.num, 1, '');
     }
 
@@ -91,29 +92,29 @@ class Bomber{
         let yMax = 100;
 
         // Iterates through the 2d array
-        for (let i = 1; i < bomberLocations.length-1; i++) {
-            for (let j = 1; j < bomberLocations.length-1; j++) {
+        for (let i = 1; i < m.bomberLocations.length-1; i++) {
+            for (let j = 1; j < m.bomberLocations.length-1; j++) {
                 if (this.x >= xMin && this.x < xMax && this.y >= yMin && this.y < yMax) {
-                    if(bombMap[i][j] === "bombpower"){
+                    if(m.bombMap[i][j] === "bombpower"){
                         this.bombPower++;
-                        bombMap[i][j] = 'free';
+                        m.bombMap[i][j] = 'free';
                     }
-                    if(bombMap[i][j] === "extrabomb"){
+                    if(m.bombMap[i][j] === "extrabomb"){
                         this.bombAmmo++;
-                        bombMap[i][j] = 'free';
+                        m.bombMap[i][j] = 'free';
                     }
-                    if(bombMap[i][j] === "speed"){
+                    if(m.bombMap[i][j] === "speed"){
                         if(this.speed < 6){
                             this.speed += 1
                         }
-                        bombMap[i][j] = 'free';
+                        m.bombMap[i][j] = 'free';
                     }
-                    bomberLocations[i][j] = g.playerArr[this.num];
+                    m.bomberLocations[i][j] = g.playerArr[this.num];
                     this.iGrid = i;
                     this.jGrid = j;
-                }else if(bomberLocations[i][j] === "wall" ||bomberLocations[i][j] === "bombpower" || bomberLocations[i][j] === "extrabomb" || bomberLocations[i][j] === "speed" || bomberLocations[i][j] !== g.playerArr[this.num]){}
+                }else if(m.bomberLocations[i][j] === "wall" ||m.bomberLocations[i][j] === "bombpower" || m.bomberLocations[i][j] === "extrabomb" || m.bomberLocations[i][j] === "speed" || m.bomberLocations[i][j] !== g.playerArr[this.num]){}
                  else {
-                        bomberLocations[i][j] = "free";
+                        m.bomberLocations[i][j] = "free";
                 }
                 xMin += 50;
                 xMax += 50;
@@ -130,10 +131,10 @@ class Bomber{
         //Checks if there is a wall to the right
         if(this.jGrid === 15) {
             theWalls.right = true;
-        }else if(bombMap[this.iGrid][this.jGrid+1] === 'wall' || bombMap[this.iGrid][this.jGrid+1] === 'rock' || typeof bombMap[this.iGrid][this.jGrid+1] === 'object') {
+        }else if(m.bombMap[this.iGrid][this.jGrid+1] === 'wall' || m.bombMap[this.iGrid][this.jGrid+1] === 'rock' || typeof m.bombMap[this.iGrid][this.jGrid+1] === 'object') {
             theWalls.right = true;
         } else if(this.y + this.height > this.iGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid-1] === 'object'){
+            if (m.bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || m.bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof m.bombMap[this.iGrid+1][this.jGrid-1] === 'object'){
                 theWalls.right = true;
             }
         }else{
@@ -143,10 +144,10 @@ class Bomber{
         // Checks if there is a wall to the left
         if (this.jGrid === 1) {
             theWalls.left = true;
-        }else if(bombMap[this.iGrid][this.jGrid-1] === 'wall' || bombMap[this.iGrid][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid][this.jGrid-1] === 'object') {
+        }else if(m.bombMap[this.iGrid][this.jGrid-1] === 'wall' || m.bombMap[this.iGrid][this.jGrid-1] === 'rock' || typeof m.bombMap[this.iGrid][this.jGrid-1] === 'object') {
             theWalls.left = true;
         } else if (this.y + this.height > this.iGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid-1] === 'object') {
+            if (m.bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || m.bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof m.bombMap[this.iGrid+1][this.jGrid-1] === 'object') {
                 theWalls.left = true;
             }
         } else{
@@ -156,10 +157,10 @@ class Bomber{
         // Checks if there is a wall below
         if(this.iGrid === 15) {
             theWalls.down = true;
-        } else if (bombMap[this.iGrid+1][this.jGrid] === 'wall' || bombMap[this.iGrid+1][this.jGrid] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid] === 'object') {
+        } else if (m.bombMap[this.iGrid+1][this.jGrid] === 'wall' || m.bombMap[this.iGrid+1][this.jGrid] === 'rock' || typeof m.bombMap[this.iGrid+1][this.jGrid] === 'object') {
             theWalls.down = true;
         } else if (this.x + this.width > this.jGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid+1] === 'wall' || bombMap[this.iGrid+1][this.jGrid+1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid+1] === 'object') {
+            if (m.bombMap[this.iGrid+1][this.jGrid+1] === 'wall' || m.bombMap[this.iGrid+1][this.jGrid+1] === 'rock' || typeof m.bombMap[this.iGrid+1][this.jGrid+1] === 'object') {
                 theWalls.down = true;
             }
         }       
@@ -170,10 +171,10 @@ class Bomber{
         // Checks if there is a wall above
         if (this.iGrid === 1) {
             theWalls.up = true;
-        }else if(bombMap[this.iGrid-1][this.jGrid] === 'wall' || bombMap[this.iGrid-1][this.jGrid] === 'rock' || typeof bombMap[this.iGrid-1][this.jGrid] === 'object') {
+        }else if(m.bombMap[this.iGrid-1][this.jGrid] === 'wall' || m.bombMap[this.iGrid-1][this.jGrid] === 'rock' || typeof m.bombMap[this.iGrid-1][this.jGrid] === 'object') {
             theWalls.up = true
         }else if (this.x + this.width > this.jGrid * 50 + 50){
-            if (bombMap[this.iGrid-1][this.jGrid + 1] === 'wall' || bombMap[this.iGrid-1][this.jGrid + 1] === 'rock' || typeof bombMap[this.iGrid-1][this.jGrid + 1] === 'object') {
+            if (m.bombMap[this.iGrid-1][this.jGrid + 1] === 'wall' || m.bombMap[this.iGrid-1][this.jGrid + 1] === 'rock' || typeof m.bombMap[this.iGrid-1][this.jGrid + 1] === 'object') {
                 theWalls.up = true;
             }  
         } else {
