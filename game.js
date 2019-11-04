@@ -179,20 +179,21 @@ function mainLoop(){
 
 //PLAYER COMMANDS
 document.onkeypress = function(e){
-    if(e.key === "s"){
+    if(e.key === "s" || e.key === "S"){
         g.playerArr[0].moveDown = true;
     }
-    if(e.key === "w"){
+    if(e.key === "w" || e.key === "W"){
         g.playerArr[0].moveUp = true;
     }
-    if(e.key === "a"){
+    if(e.key === "a" || e.key === "A"){
         g.playerArr[0].moveLeft = true;
     }
-    if(e.key === "d"){
+    if(e.key === "d" || e.key === "D"){
         g.playerArr[0].moveRight = true;
     }
     // Drop bomb
     if(e.keyCode === 32){
+        e.preventDefault();
         if(g.playerArr[0].bombAmmo > 0){
             if (bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
                 // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
@@ -205,14 +206,17 @@ document.onkeypress = function(e){
             }
         }
     }
+    
 }
 
 document.onkeydown = function(e){
         //P2
         if(e.key === "ArrowDown"){
+            e.preventDefault()
             g.playerArr[1].moveDown = true;
         }
         if(e.key === "ArrowUp"){
+            e.preventDefault()
             g.playerArr[1].moveUp = true;
         }
         if(e.key === "ArrowLeft"){
@@ -236,19 +240,19 @@ document.onkeydown = function(e){
 }
 
 document.onkeyup = function(e){
-    if(e.key === "s"){
+    if(e.key === "s" || e.key === "S"){
         g.playerArr[0].moveDown = false;
         g.spriteArr[0].lastPressed = "down";
     }
-    if(e.key === "w"){
+    if(e.key === "w" || e.key === "W"){
         g.playerArr[0].moveUp = false;
         g.spriteArr[0].lastPressed = "up";
     }
-    if(e.key === "a"){
+    if(e.key === "a" || e.key === "A"){
         g.playerArr[0].moveLeft = false;
         g.spriteArr[0].lastPressed = "left"
     }
-    if(e.key === "d"){
+    if(e.key === "d" || e.key === "D"){
         g.playerArr[0].moveRight = false;
         g.spriteArr[0].lastPressed = "right"
     }
