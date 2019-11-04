@@ -68,13 +68,13 @@ class Game {
         }
 
     }
-
+    // Creates bomber and places him in bomber array
     createPlayer(color, x, y, iGrid, jGrid, num) {
-        this.playerArr.push(new Bomber(color, x, y, iGrid, jGrid, num)); 
-        console.log('player created')
+        let theBomber = new Bomber(color, x, y, iGrid, jGrid, num);
+        this.playerArr.push(theBomber); 
     }
 
-    //Draws a background based on the 2d Array bombMap
+    //Draws the map based on the 2d Array bombMap
     createMap() {
         let xCoord = 0;
         let yCoord = 0;
@@ -98,13 +98,33 @@ class Game {
                     ctx.arc(xCoord + 25, yCoord + 25, 12, 0, 2 * Math.PI);
                     ctx.fill();
                     xCoord += 50;
-                } else if (bombMap[i][j] === 'boom') {
+                } else if (typeof bombMap[i][j] === 'number') {
                     // ctx.fillStyle = 'green';
                     // ctx.fillRect(xCoord, yCoord, 50, 50);
                     //explosion orange
                     ctx.fillStyle = '#FF9900';
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
+                } else if(bombMap[i][j] === 'bombpower'){
+                    ctx.fillStyle = 'green';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
+                    xCoord += 50;
+                }
+                else if(bombMap[i][j] === 'extrabomb'){
+                    ctx.fillStyle = 'green';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.fillStyle = 'cyan';
+                    ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
+                    xCoord += 50;
+                }
+                else if(bombMap[i][j] === 'speed'){
+                    ctx.fillStyle = 'green';
+                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.fillStyle = 'yellow';
+                    ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
+                    xCoord += 50;    
                 }
                 else {
                     ctx.fillStyle = 'green';
@@ -118,39 +138,18 @@ class Game {
 
     }
 
-    //DRAWING POWERUPS
-    drawPowers() {
-        let xCoord = 50;
-        let yCoord = 50;
-        for(let i = 1; i < bombMap.length -1; i++) {
-            for (let j = 1; j < bombMap.length -1; j++) {
-                if (bombMap[i][j] === 'bombpower' || bombMap[i][j] === 'extrabomb' || bombMap[i][j] === 'speed') {
-                    if(bombMap[i][j] === 'bombpower'){
-                        ctx.fillStyle = 'cyan';
-                        ctx.fillRect(xCoord, yCoord, 50, 50);
-                        xCoord += 50;
-                    }
-                    else if(bombMap[i][j] === 'extrabomb'){
-                        ctx.fillStyle = 'red';
-                        ctx.fillRect(xCoord, yCoord, 50, 50);
-                        xCoord += 50;
-                    }
-                    else if(bombMap[i][j] === 'speed'){
-                        ctx.fillStyle = 'yellow';
-                        ctx.fillRect(xCoord, yCoord, 50, 50);
-                        xCoord += 50;    
-                    }
-                } else {
-                    xCoord += 50;
-                }
-            }
-            yCoord += 50;
-            xCoord = 50;
-        }
-
+    drawPlayer(u) {
+        ctx.fillStyle = u.color;
+        ctx.fillRect(u.x, u.y, u.width, u.height)
     }
 }
 
+let playerOneDead = false;
+let playerTwoDead = false;
+let playerOneX;
+let playerOneY;
+let playerTwoX;
+let playerTwoY;
 // SPRITE VARS
 let frameCounter = 0;
 let frameCounter2 = 0;
@@ -173,46 +172,19 @@ mainLoop();
 
 function mainLoop(){
     
-    //GRID PLACER
-    if(g.playerArr[0] !== ''){
-        g.playerArr[0].gridPlacer();
+    //GRID PLACER & MoveCheck
+    for (let i = 0; i < g.playerArr.length; i++) {
+        if(g.playerArr[i] !== ''){
+            g.playerArr[i].gridPlacer();
+            if(g.playerArr[i].moveUp || g.playerArr[i].moveDown || g.playerArr[i].moveLeft || g.playerArr[i].moveRight){
+                g.playerArr[i].move();
+            }
+        }
     }
-
-    if(g.playerArr[1] !== ''){
-        g.playerArr[1].gridPlacer();
-    }
-
-    //Player 1 Movecheck
-    if(g.playerArr[0].moveUp || g.playerArr[0].moveDown || g.playerArr[0].moveLeft || g.playerArr[0].moveRight){
-        g.playerArr[0].move();
-    }
-
-    //Player 2 Movecheck
-    if(g.playerArr[1].moveUp || g.playerArr[1].moveDown || g.playerArr[1].moveLeft || g.playerArr[1].moveRight){
-        g.playerArr[1].move();
-    }
-
-
     //Clear canvas
     ctx.clearRect(0, 0, 750, 750);
     g.createMap();
-    g.drawPowers();
 
-    //Draw player function
-    function drawSelf(u){
-        ctx.fillStyle = u.color;
-        ctx.fillRect(u.x, u.y, u.width, u.height)
-    }
-
-
-    //Drawing Player
-    drawSelf(g.playerArr[0]);
-    drawSelf(g.playerArr[1]);
-
-    //P1 SPRITES
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
 
     var p1Right = new Image();
     var p1Left = new Image();
@@ -224,6 +196,55 @@ function mainLoop(){
     p1Left.src ="./Images/p1/p1WalkLeft.png";
     p1Up.src="./Images/p1/p1WalkUp.png";
     p1Down.src="./Images/p1/p1WalkDown.png"
+    //Drawing Player
+    for (let i = 0; i < g.playerArr.length; i++) {
+        g.drawPlayer(g.playerArr[i]);
+    }
+    if (playerOneDead) {
+        let spriteWidth = 64;
+        let spriteHeight = 50;
+        let spriteScale = 1.3;
+        let frameRate = 10;
+        let totalFrames = frameRate * 8;
+        if(frameCounter < totalFrames){
+            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        if(frameCounter % frameRate == 0){
+            ssNum++;
+        }
+        if(frameCounter == totalFrames - 1){
+            ssNum=0;
+            frameCounter = 0;
+        }
+        frameCounter++;
+    }
+    if (playerTwoDead) {
+        let spriteWidth = 64;
+        let spriteHeight = 50;
+        let spriteScale = 1.3;
+        let frameRate = (-bomberSpeed * 2) + 10;
+        let totalFrames = frameRate * 8;
+        if(frameCounter2 < totalFrames){
+            ctx.drawImage(p1Right, spriteWidth*ssNum2, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        }
+        if(frameCounter2 % frameRate == 0){
+            ssNum2++;
+        }
+        if(frameCounter2 == totalFrames - 1){
+            ssNum2=0;
+            frameCounter2 = 0;
+        }
+        frameCounter2++;
+    }
+
+
+
+    //P1 SPRITES
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
     let spriteWidth = 64;
@@ -505,6 +526,7 @@ function mainLoop(){
 
 
 
+
 // document.querySelector('#start-game').onclick = () =>{
 //     mainLoop();
 // }s
@@ -542,7 +564,6 @@ document.onkeypress = function(e){
 document.onkeydown = function(e){
         //P2
         if(e.key === "ArrowDown"){
-            console.log(e.key)
             g.playerArr[1].moveDown = true;
         }
         if(e.key === "ArrowUp"){
@@ -557,7 +578,8 @@ document.onkeydown = function(e){
         if(e.keyCode === 16){
             if(g.playerArr[1].bombAmmo > 0){
                 if (bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
-                    let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower));
+                    let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower, bombIDs));
+                    bombIDs++;
                     newBomb.gridPlacer();
                     newBomb.timerExplode();
                     g.bombArr.push(newBomb);

@@ -9,49 +9,22 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 2;
+        this.speed = 4;
         this.iGrid = iGrid;
         this.jGrid = jGrid;
-        this.bombPower = 1;
-        this.bombAmmo = 2;
+        this.bombPower = 2;
+        this.bombAmmo = 4;
         this.num = num - 1 ;
     }
 
-    // deathCheck(){
-    //     for (let i = 1; i < bomberLocations.length-1; i++) {
-    //         for (let j = 1; j < bomberLocations.length-1; j++) {
-    //             if (bombMap[this.jGrid][this.iGrid] === "boom"){
-    //                 this.die();
-    //             }
-    //         }
-    //     }
-    // }
 
-    // die(){
-    //     ssNum = 0;
-    //     var p1Right = new Image();
-    //     p1Right.src="./Images/p1/p1WalkRight.png";
-    //     function p1death(){
-    //         let spriteWidth = 64;
-    //         let spriteHeight = 50;
-    //         let spriteScale = 1.3;
-    //         let frameRate = (-g.playerArr[0].speed * 2) + 10;
-    //         let totalFrames = frameRate * 8;
-    //         if(frameCounter < totalFrames){
-    //             ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[this.num].x - 22, g.playerArr[this.num].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-    //         }
-    //         if(frameCounter % frameRate == 0){
-    //             ssNum++;
-    //         }
-    //         if(frameCounter == totalFrames - 1){
-    //             ssNum=0;
-    //             frameCounter = 0;
-    //         }
-    //         frameCounter++;
-    //     }
-    //     p1death();
-    //     g.playerArr.splice(this.num, 1, '');
-    // }
+    die(){
+        playerOneDead = true;
+        playerOneX = this.x;
+        playerOneY = this.y;
+        bomberLocations[this.iGrid][this.jGrid] = 'free';
+        g.playerArr.splice(this.num, 1, '');
+    }
 
     wallDetection(){
         
@@ -126,8 +99,8 @@ class Bomber{
                     if(bombMap[i][j] === "speed"){
                         if(this.speed < 6){
                             this.speed += 1
-                            bombMap[i][j] = 'free';
                         }
+                        bombMap[i][j] = 'free';
                     }
                     bomberLocations[i][j] = g.playerArr[this.num];
                     this.iGrid = i;
@@ -151,10 +124,10 @@ class Bomber{
         //Checks if there is a wall to the right
         if(this.jGrid === 15) {
             theWalls.right = true;
-        }else if(bombMap[this.iGrid][this.jGrid+1] !== 'free') {
+        }else if(bombMap[this.iGrid][this.jGrid+1] === 'wall' || bombMap[this.iGrid][this.jGrid+1] === 'rock' || typeof bombMap[this.iGrid][this.jGrid+1] === 'object') {
             theWalls.right = true;
         } else if(this.y + this.height > this.iGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free'){
+            if (bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid-1] === 'object'){
                 theWalls.right = true;
             }
         }else{
@@ -164,10 +137,10 @@ class Bomber{
         // Checks if there is a wall to the left
         if (this.jGrid === 1) {
             theWalls.left = true;
-        }else if(bombMap[this.iGrid][this.jGrid-1] !== 'free') {
+        }else if(bombMap[this.iGrid][this.jGrid-1] === 'wall' || bombMap[this.iGrid][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid][this.jGrid-1] === 'object') {
             theWalls.left = true;
         } else if (this.y + this.height > this.iGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid-1] !== 'free') {
+            if (bombMap[this.iGrid+1][this.jGrid-1] === 'wall' || bombMap[this.iGrid+1][this.jGrid-1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid-1] === 'object') {
                 theWalls.left = true;
             }
         } else{
@@ -177,10 +150,10 @@ class Bomber{
         // Checks if there is a wall below
         if(this.iGrid === 15) {
             theWalls.down = true;
-        } else if (bombMap[this.iGrid+1][this.jGrid] !== 'free') {
+        } else if (bombMap[this.iGrid+1][this.jGrid] === 'wall' || bombMap[this.iGrid+1][this.jGrid] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid] === 'object') {
             theWalls.down = true;
         } else if (this.x + this.width > this.jGrid * 50 + 50) {
-            if (bombMap[this.iGrid+1][this.jGrid+1] !== 'free') {
+            if (bombMap[this.iGrid+1][this.jGrid+1] === 'wall' || bombMap[this.iGrid+1][this.jGrid+1] === 'rock' || typeof bombMap[this.iGrid+1][this.jGrid+1] === 'object') {
                 theWalls.down = true;
             }
         }       
@@ -191,10 +164,10 @@ class Bomber{
         // Checks if there is a wall above
         if (this.iGrid === 1) {
             theWalls.up = true;
-        }else if(bombMap[this.iGrid-1][this.jGrid] !== 'free') {
+        }else if(bombMap[this.iGrid-1][this.jGrid] === 'wall' || bombMap[this.iGrid-1][this.jGrid] === 'rock' || typeof bombMap[this.iGrid-1][this.jGrid] === 'object') {
             theWalls.up = true
         }else if (this.x + this.width > this.jGrid * 50 + 50){
-            if (bombMap[this.iGrid-1][this.jGrid + 1] !== 'free') {
+            if (bombMap[this.iGrid-1][this.jGrid + 1] === 'wall' || bombMap[this.iGrid-1][this.jGrid + 1] === 'rock' || typeof bombMap[this.iGrid-1][this.jGrid + 1] === 'object') {
                 theWalls.up = true;
             }  
         } else {
