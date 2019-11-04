@@ -9,19 +9,25 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 6;
+        this.speed = 2;
         this.iGrid = iGrid;
         this.jGrid = jGrid;
-        this.bombPower = 2;
+        this.bombPower = 1;
         this.bombAmmo = 4;
         this.num = num - 1 ;
     }
 
 
     die(){
-        playerOneDead = true;
-        playerOneX = this.x;
-        playerOneY = this.y;
+        if(this.num == 0){
+            playerOneDead = true;
+            playerOneX = this.x;
+            playerOneY = this.y;
+        }else{
+            playerTwoDead = true;
+            playerTwoX = this.x;
+            playerTwoY = this.y;
+        }
         bomberLocations[this.iGrid][this.jGrid] = 'free';
         g.playerArr.splice(this.num, 1, '');
     }
