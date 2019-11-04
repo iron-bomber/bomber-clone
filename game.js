@@ -1,44 +1,5 @@
 const ctx = document.getElementById('main-game-board').getContext('2d');
-
-const bombMap = [
-    ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall']
-];
-
-const bomberLocations = [
-    ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall', 'free', 'wall'],
-    ['wall', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'free', 'wall'],
-    ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall']
-];
+ctx.imageSmoothingEnabled = false;
 
 let bombIDs = 0;
 
@@ -76,22 +37,22 @@ class Game {
 
     //Draws the map based on the 2d Array bombMap
     createMap() {
+        var leftWall = new Image();
+        leftWall.src="./Images/leftWall.png";
+        var rock = new Image();
+        rock.src="./Images/rock.png";
         let xCoord = 0;
         let yCoord = 0;
         for(let i = 0; i < bombMap.length; i++) {
             for (let j = 0; j < bombMap.length; j++) {
                 if (bombMap[i][j] === 'wall') {
-                    ctx.fillStyle = 'black';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 256, 128, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
-
                 } else if (bombMap[i][j] === 'rock') {
-                    ctx.fillStyle = 'brown';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 64, 64, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 }else if (typeof bombMap[i][j] === 'object') {
-                    ctx.fillStyle = 'green';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     //bomb Gray
                     ctx.fillStyle = '#C0C0C0';
                     ctx.beginPath();
@@ -106,29 +67,25 @@ class Game {
                     ctx.fillRect(xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 } else if(bombMap[i][j] === 'bombpower'){
-                    ctx.fillStyle = 'green';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'red';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
                     xCoord += 50;
                 }
                 else if(bombMap[i][j] === 'extrabomb'){
-                    ctx.fillStyle = 'green';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'cyan';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
                     xCoord += 50;
                 }
                 else if(bombMap[i][j] === 'speed'){
-                    ctx.fillStyle = 'green';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     ctx.fillStyle = 'yellow';
                     ctx.fillRect(xCoord+15, yCoord+15, 20, 20);
                     xCoord += 50;    
                 }
                 else {
-                    ctx.fillStyle = 'green';
-                    ctx.fillRect(xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 }
             }
@@ -143,33 +100,6 @@ class Game {
         ctx.fillRect(u.x, u.y, u.width, u.height)
     }
 }
-
-let playerOneDead = false;
-let playerTwoDead = false;
-let playerOneX;
-let playerOneY;
-let playerTwoX;
-let playerTwoY;
-// SPRITE VARS
-let frameCounter = 0;
-let frameCounter2 = 0;
-let ssNum = 0;
-let ssNum2 = 0;
-let idleDecider;
-let idleDecider2;
-let lastPressed = 'down';
-let lastPressed2 = 'ArrowDown';
-let deathDone = false;
-let deathDone2 = false;
-
-
-let g = new Game();
-g.createPlayer('red', 60, 75, 1, 1, 1);
-g.createPlayer('blue', 760, 760, 15, 15, 2);
-// Randomly generate rocks on map
-g.generateRocks();
-mainLoop();
-
 
 
 function mainLoop(){
@@ -204,9 +134,9 @@ function mainLoop(){
     p1Up.src="./Images/p1/p1WalkUp.png";
     p1Down.src="./Images/p1/p1WalkDown.png"
     //Drawing Player
-    for (let i = 0; i < g.playerArr.length; i++) {
-        g.drawPlayer(g.playerArr[i]);
-    }
+    // for (let i = 0; i < g.playerArr.length; i++) {
+    //     g.drawPlayer(g.playerArr[i]);
+    // }
     if (playerOneDead) {
         let spriteWidth = 64;
         let spriteHeight = 50;
@@ -239,9 +169,9 @@ function mainLoop(){
         let frameRate = 6;
         let totalFrames = frameRate * 12;
         if(!deathDone2){
-            if(ssNum < 6){
-                if(frameCounter < totalFrames){
-                    ctx.drawImage(p2Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            if(ssNum2 < 6){
+                if(frameCounter2 < totalFrames){
+                    ctx.drawImage(p2Death, spriteWidth*ssNum2, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
                 }
             }else{
                 ctx.drawImage(p2Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
@@ -249,13 +179,13 @@ function mainLoop(){
 
 
         }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
+        if(frameCounter2 % frameRate == 0){
+            ssNum2++;
         }
-        if(frameCounter == totalFrames - 1){
+        if(frameCounter2 == totalFrames - 1){
             deathDone2 = true;
         }
-        frameCounter++;
+        frameCounter2++;
     }
 
 
@@ -271,7 +201,7 @@ function mainLoop(){
     let spriteWidth = 64;
     let spriteHeight = 50;
     let spriteScale = 1.3;
-    let frameRate = (-g.playerArr[0].speed * 2) + 10;
+    let frameRate = (-g.playerArr[0].speed * 1.5) + 10;
     let totalFrames = frameRate * 8;
 
     //P1 ANIMATIONS
@@ -662,3 +592,11 @@ document.onkeyup = function(e){
         lastPressed2 = "ArrowRight"
     }
 } //END PLAYER 1 COMMANDS
+
+
+let g = new Game();
+g.createPlayer('red', 60, 75, 1, 1, 1);
+g.createPlayer('blue', 760, 760, 15, 15, 2);
+// Randomly generate rocks on map
+g.generateRocks();
+mainLoop();
