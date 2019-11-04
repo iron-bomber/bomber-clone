@@ -289,53 +289,37 @@ document.onkeydown = function(e){
 document.onkeyup = function(e){
     if(e.key === "s"){
         g.playerArr[0].moveDown = false;
-        ssNum = 0;
-        frameCounter = 0;
-        lastPressed = "down";
+        g.spriteArr[0].lastPressed = "down";
     }
     if(e.key === "w"){
         g.playerArr[0].moveUp = false;
-        ssNum = 0;
-        frameCounter = 0;
-        lastPressed = "up";
+        g.spriteArr[0].lastPressed = "up";
     }
     if(e.key === "a"){
         g.playerArr[0].moveLeft = false;
-        ssNum = 0;
-        frameCounter = 0;
-        lastPressed = "left"
+        g.spriteArr[0].lastPressed = "left"
     }
     if(e.key === "d"){
         g.playerArr[0].moveRight = false;
-        ssNum = 0;
-        frameCounter = 0;
-        lastPressed = "right"
+        g.spriteArr[0].lastPressed = "right"
     }
     
     //P2
     if(e.key === "ArrowDown"){
         g.playerArr[1].moveDown = false;
-        ssNum2 = 0;
-        frameCounter2 = 0;
-        lastPressed2 = "down";
+        g.spriteArr[1].lastPressed = "down";
     }
     if(e.key === "ArrowUp"){
         g.playerArr[1].moveUp = false;
-        ssNum2 = 0;
-        frameCounter2 = 0;
-        lastPressed2 = "up";
+        g.spriteArr[1].lastPressed = "up";
     }
     if(e.key === "ArrowLeft"){
         g.playerArr[1].moveLeft = false;
-        ssNum2 = 0;
-        frameCounter2 = 0;
-        lastPressed2 = "left"
+        g.spriteArr[1].lastPressed = "left"
     }
     if(e.key === "ArrowRight"){
         g.playerArr[1].moveRight = false;
-        ssNum2 = 0;
-        frameCounter2 = 0;
-        lastPressed2 = "right"
+        g.spriteArr[1].lastPressed = "right"
     }
 } //END PLAYER 1 COMMANDS
 
