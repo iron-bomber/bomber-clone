@@ -104,7 +104,6 @@ class Sprite {
         this.totalFrames = this.frameRate*12;
         if(!this.deathDone){
             if(this.ssNum < 6){
-                console.log('draw initial')
                 if(this.frameCounter < this.totalFrames){
                     ctx.drawImage(this.death, this.width*this.ssNum, 0, this.width, this.height, playerX - 22, playerY - 34, this.width*this.scale, this.height*this.scale);
                 }

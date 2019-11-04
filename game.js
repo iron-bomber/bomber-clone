@@ -6,6 +6,7 @@ class Game {
         this.playerArr = [];
         this.bombArr = [];
         this.spriteArr = [];
+        this.bombMap = [];
     }
 
     // Randomly generates rocks into the 2d Array bombMap
@@ -39,7 +40,7 @@ class Game {
         this.spriteArr.push(bomberSprite);
     }
 
-    //Draws the map based on the 2d Array bombMap
+    //Draws the map based on the 2d AbombMap
     createMap() {
         var leftWall = new Image();
         leftWall.src="./Images/leftWall.png";
@@ -115,10 +116,10 @@ function mainLoop(){
                 }
             }
             playersLeft = 0;
-            setTimeout(() => {
-
-            }, 1000);
         }
+        setTimeout(() => {
+            initializeGame();
+        }, 1000);
     }
     //GRID PLACER & MoveCheck
     for (let i = 0; i < g.playerArr.length; i++) {
@@ -287,8 +288,13 @@ document.onkeyup = function(e){
         g.spriteArr[1].lastPressed = "right"
     }
 } //END PLAYER 1 COMMANDS
+let g;
+
 function initializeGame() {
-    let g = new Game();
+    playerOneDead = false;
+    playerTwoDead = false;  
+    g = new Game([...bombMap]);
+    console.log('g new gamed', g, bomberLocations)
     g.createPlayer('red', 60, 75, 1, 1, 1);
     g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
     g.createPlayer('blue', 760, 760, 15, 15, 2);
@@ -296,10 +302,10 @@ function initializeGame() {
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
-    mainLoop();
 }
 
 initializeGame();
+mainLoop();
 
 
 
