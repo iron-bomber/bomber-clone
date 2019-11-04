@@ -1,7 +1,4 @@
-const ctx = document.getElementById('main-game-board').getContext('2d');
-ctx.imageSmoothingEnabled = false;
 
-let bombIDs = 0;
 
 class Game {
 
@@ -109,7 +106,20 @@ class Game {
 }
 
 function mainLoop(){
-    
+    if (playersLeft === 1) {
+        for(let i = 0; i < g.playerArr.length; i++) {
+            if (typeof g.playerArr[i] === 'object') {
+                playerScores[`p${i+1}`] += 1;
+                for (let j = 0; j < numOfPlayers; j++) {
+                    console.log(`Player ${j+1} score: ${playerScores[`p${j+1}`]}`);
+                }
+            }
+            playersLeft = 0;
+            setTimeout(() => {
+
+            }, 1000);
+        }
+    }
     //GRID PLACER & MoveCheck
     for (let i = 0; i < g.playerArr.length; i++) {
         if(g.playerArr[i] !== ''){
@@ -277,46 +287,21 @@ document.onkeyup = function(e){
         g.spriteArr[1].lastPressed = "right"
     }
 } //END PLAYER 1 COMMANDS
+function initializeGame() {
+    let g = new Game();
+    g.createPlayer('red', 60, 75, 1, 1, 1);
+    g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
+    g.createPlayer('blue', 760, 760, 15, 15, 2);
+    g.createSprite(p2Left, p2Right, p2Up, p2Down, p2Death, 'down', 1, spriteHeight2);
+    numOfPlayers = g.playerArr.length;
+    playersLeft = g.playerArr.length;
+    g.generateRocks();
+    mainLoop();
+}
+
+initializeGame();
 
 
-let g = new Game();
-//Player one
-g.createPlayer('red', 60, 75, 1, 1, 1);
-let p1Left = new Image();
-let p1Right = new Image();
-let p1Up = new Image();
-let p1Down = new Image();
-let p1Death = new Image();
-
-
-let spriteHeight1 = 50;
-p1Left.src ="./Images/p1/p1WalkLeft.png";
-p1Right.src="./Images/p1/p1WalkRight.png";
-p1Up.src="./Images/p1/p1WalkUp.png";
-p1Down.src="./Images/p1/p1WalkDown.png";
-p1Death.src="./Images/p1/p1Death.png";
-
-
-g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
-//Player two
-g.createPlayer('blue', 760, 760, 15, 15, 2);
-let spriteHeight2 = 53;
-let p2Left = new Image();
-let p2Right = new Image();
-let p2Up = new Image();
-let p2Down = new Image();
-let p2Death = new Image();
-
-p2Death.src="./Images/p2/p2Death.png";
-p2Left.src ="./Images/p2/p2WalkLeft.png";
-p2Right.src="./Images/p2/p2WalkRight.png";
-p2Up.src="./Images/p2/p2WalkUp.png";
-p2Down.src="./Images/p2/p2WalkDown.png";
-
-g.createSprite(p2Left, p2Right, p2Up, p2Down, p2Death, 'down', 1, spriteHeight2);
-// Randomly generate rocks on map
-g.generateRocks();
-mainLoop();
 
 
 
