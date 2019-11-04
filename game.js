@@ -159,6 +159,8 @@ let idleDecider;
 let idleDecider2;
 let lastPressed = 'down';
 let lastPressed2 = 'ArrowDown';
+let deathDone = false;
+let deathDone2 = false;
 
 
 let g = new Game();
@@ -190,8 +192,13 @@ function mainLoop(){
     var p1Left = new Image();
     var p1Up = new Image();
     var p1Down = new Image();
+    var p1Death = new Image();
+    var p2Death = new Image();
 
-
+    
+    
+    p2Death.src="./Images/p2/p2Death.png";
+    p1Death.src="./Images/p1/p1Death.png";
     p1Right.src="./Images/p1/p1WalkRight.png";
     p1Left.src ="./Images/p1/p1WalkLeft.png";
     p1Up.src="./Images/p1/p1WalkUp.png";
@@ -204,37 +211,51 @@ function mainLoop(){
         let spriteWidth = 64;
         let spriteHeight = 50;
         let spriteScale = 1.3;
-        let frameRate = 10;
-        let totalFrames = frameRate * 8;
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        let frameRate = 6;
+        let totalFrames = frameRate * 12;
+        if(!deathDone){
+            if(ssNum < 6){
+                if(frameCounter < totalFrames){
+                    ctx.drawImage(p1Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+                }
+            }else{
+                ctx.drawImage(p1Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            }
+
+
         }
         if(frameCounter % frameRate == 0){
             ssNum++;
         }
         if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
+            deathDone = true;
         }
         frameCounter++;
     }
     if (playerTwoDead) {
         let spriteWidth = 64;
-        let spriteHeight = 50;
+        let spriteHeight = 53;
         let spriteScale = 1.3;
-        let frameRate = (-bomberSpeed * 2) + 10;
-        let totalFrames = frameRate * 8;
-        if(frameCounter2 < totalFrames){
-            ctx.drawImage(p1Right, spriteWidth*ssNum2, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        let frameRate = 6;
+        let totalFrames = frameRate * 12;
+        if(!deathDone2){
+            if(ssNum < 6){
+                if(frameCounter < totalFrames){
+                    ctx.drawImage(p2Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+                }
+            }else{
+                ctx.drawImage(p2Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+            }
+
+
         }
-        if(frameCounter2 % frameRate == 0){
-            ssNum2++;
+        if(frameCounter % frameRate == 0){
+            ssNum++;
         }
-        if(frameCounter2 == totalFrames - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
+        if(frameCounter == totalFrames - 1){
+            deathDone2 = true;
         }
-        frameCounter2++;
+        frameCounter++;
     }
 
 

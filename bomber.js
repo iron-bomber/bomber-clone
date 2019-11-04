@@ -287,7 +287,40 @@ class Bomber{
     
 }
 
+// let playerOneDead = false;
+// let playerTwoDead = false;
+// let playerOneX;
+// let playerOneY;
+// let playerTwoX;
+// let playerTwoY;
+// // SPRITE VARS
+// let frameCounter = 0;
+// let frameCounter2 = 0;
+// let ssNum = 0;
+// let ssNum2 = 0;
+// let idleDecider;
+// let idleDecider2;
+// let lastPressed = 'down';
+// let lastPressed2 = 'ArrowDown';
+// var p1Death = new Image();
+// p1Death.src="./Images/p1/p1Death.png";
+// let spriteWidth = 64;
+// let spriteHeight = 50;
+// let spriteScale = 1.3;
+// let frameRate = 10;
+// let totalFrames = frameRate * 5;
 
 
-
-
+// function drawDeath(){
+//     if(frameCounter < totalFrames){
+//         ctx.drawImage(p1Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+//     }
+//     if(frameCounter % frameRate == 0){
+//         ssNum++;
+//     }
+//     if(frameCounter == totalFrames - 1){
+//         ssNum=0;
+//         frameCounter = 0;
+//     }
+//     frameCounter++;
+// }
