@@ -47,6 +47,7 @@ class Game {
     constructor(){
         this.playerArr = [];
         this.bombArr = [];
+        this.spriteArr = [];
     }
 
     // Randomly generates rocks into the 2d Array bombMap
@@ -72,6 +73,12 @@ class Game {
     createPlayer(color, x, y, iGrid, jGrid, num) {
         let theBomber = new Bomber(color, x, y, iGrid, jGrid, num);
         this.playerArr.push(theBomber); 
+    }
+
+    // Creates a sprite for each bomber
+    createSprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID) {
+        let bomberSprite = new Sprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID);
+        this.spriteArr.push(bomberSprite);
     }
 
     //Draws the map based on the 2d Array bombMap
@@ -162,8 +169,25 @@ let lastPressed2 = 'ArrowDown';
 
 
 let g = new Game();
+
 g.createPlayer('red', 60, 75, 1, 1, 1);
+let p1Left = new Image();
+let p1Right = new Image();
+let p1Up = new Image();
+let p1Down = new Image();
+
+p1Right.src="./Images/p1/p1WalkRight.png";
+p1Left.src ="./Images/p1/p1WalkLeft.png";
+p1Up.src="./Images/p1/p1WalkUp.png";
+p1Down.src="./Images/p1/p1WalkDown.png";
+
+g.createSprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID)
+
+
+
+
 g.createPlayer('blue', 760, 760, 15, 15, 2);
+// g.createSprite()
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();
@@ -195,7 +219,7 @@ function mainLoop(){
     p1Right.src="./Images/p1/p1WalkRight.png";
     p1Left.src ="./Images/p1/p1WalkLeft.png";
     p1Up.src="./Images/p1/p1WalkUp.png";
-    p1Down.src="./Images/p1/p1WalkDown.png"
+    p1Down.src="./Images/p1/p1WalkDown.png";
     //Drawing Player
     for (let i = 0; i < g.playerArr.length; i++) {
         g.drawPlayer(g.playerArr[i]);
