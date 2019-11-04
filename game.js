@@ -250,7 +250,7 @@ function mainLoop(){
     let spriteWidth = 64;
     let spriteHeight = 50;
     let spriteScale = 1.3;
-    let frameRate = (-g.playerArr[0].speed * 2) + 10;
+    let frameRate = (-g.playerArr[0].speed * 1.5) + 10;
     let totalFrames = frameRate * 8;
 
     //P1 ANIMATIONS
@@ -387,7 +387,7 @@ function mainLoop(){
     let spriteWidth2 = 64;
     let spriteHeight2 = 53;
     let spriteScale2 = 1.3;
-    let frameRate2 = (-g.playerArr[1].speed * 2) + 10;
+    let frameRate2 = (-g.playerArr[1].speed * 1.5) + 10;
     let totalFrames2 = frameRate2 * 8;
 
     //P2 ANIMATIONS

@@ -9,7 +9,7 @@ class Bomber{
         this.moveDown = false;
         this.moveRight = false;
         this.moveLeft = false;
-        this.speed = 4;
+        this.speed = 6;
         this.iGrid = iGrid;
         this.jGrid = jGrid;
         this.bombPower = 2;
