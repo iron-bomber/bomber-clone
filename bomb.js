@@ -200,12 +200,6 @@ class Bomb {
                     }
                 }
             }
-            // Removes bomb from bomb array
-            for (let i = g.bombArr.length - 1; i >= 0; i--) {
-                if (g.bombArr[i].bombID === this.bombID) {
-                    g.bombArr.splice(i,1);
-                }
-            }
             // Deletes the bomb
             delete this;
         }, 300)

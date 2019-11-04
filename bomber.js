@@ -15,7 +15,6 @@ class Bomber{
         this.bombPower = 1;
         this.bombAmmo = 2;
         this.num = num - 1 ;
-        this.score = 0;
     }
 
 
@@ -29,12 +28,9 @@ class Bomber{
             playerTwoX = this.x;
             playerTwoY = this.y;
         }
-        setTimeout(() => {
-            m.bomberLocations[this.iGrid][this.jGrid] = 'free';
-            playersLeft--;
-            g.playerArr.splice(this.num, 1, '');
-
-        }, 1500)
+        m.bomberLocations[this.iGrid][this.jGrid] = 'free';
+        playersLeft--;
+        g.playerArr.splice(this.num, 1, '');
     }
 
     wallDetection(){
@@ -297,3 +293,4 @@ class Bomber{
 
     
 }
+

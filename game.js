@@ -1,11 +1,9 @@
-
-
 class Game {
 
     constructor(){
         this.playerArr = [];
-        this.bombArr = [];
         this.spriteArr = [];
+        this.bombMap = [];
     }
 
     // Randomly generates rocks into the 2d Array m.bombMap
@@ -104,6 +102,8 @@ class Game {
 }
 
 function mainLoop(){
+
+    console.log(playersLeft)
     if (playersLeft === 1) {
         for(let i = 0; i < g.playerArr.length; i++) {
             if (typeof g.playerArr[i] === 'object') {
@@ -113,9 +113,11 @@ function mainLoop(){
                 }
             }
         }
+
         playersLeft = 0;
-        
-        initializeGame();
+        setTimeout(()=>{
+            initializeGame();
+        }, 5000)
     }
     //GRID PLACER & MoveCheck
     for (let i = 0; i < g.playerArr.length; i++) {
@@ -212,7 +214,6 @@ document.onkeypress = function(e){
                 bombIDs++;
                 newBomb.gridPlacer();
                 newBomb.timerExplode();
-                g.bombArr.push(newBomb);
                 g.playerArr[0].bombAmmo -= 1;
             }
         }
@@ -244,7 +245,6 @@ document.onkeydown = function(e){
                     bombIDs++;
                     newBomb.gridPlacer();
                     newBomb.timerExplode();
-                    g.bombArr.push(newBomb);
                     g.playerArr[1].bombAmmo -= 1;
                 }
             }
