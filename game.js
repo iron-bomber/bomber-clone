@@ -76,8 +76,8 @@ class Game {
     }
 
     // Creates a sprite for each bomber
-    createSprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID) {
-        let bomberSprite = new Sprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID);
+    createSprite(left, right, up, down, lastPressed, bomberID, height) {
+        let bomberSprite = new Sprite(left, right, up, down, lastPressed, bomberID, height);
         this.spriteArr.push(bomberSprite);
     }
 
@@ -168,28 +168,46 @@ let lastPressed = 'down';
 let lastPressed2 = 'ArrowDown';
 let deathDone = false;
 let deathDone2 = false;
+// Death
+let p1Death = new Image();
+let p2Death = new Image();
 
+p2Death.src="./Images/p2/p2Death.png";
+p1Death.src="./Images/p1/p1Death.png";
 
 let g = new Game();
-
+// Player one
 g.createPlayer('red', 60, 75, 1, 1, 1);
 let p1Left = new Image();
 let p1Right = new Image();
 let p1Up = new Image();
 let p1Down = new Image();
 
-p1Right.src="./Images/p1/p1WalkRight.png";
+let spriteHeight1 = 50;
+// let frameRate1 = (-g.playerArr[0].speed * 1.5) + 10;
+
 p1Left.src ="./Images/p1/p1WalkLeft.png";
+p1Right.src="./Images/p1/p1WalkRight.png";
 p1Up.src="./Images/p1/p1WalkUp.png";
 p1Down.src="./Images/p1/p1WalkDown.png";
 
-g.createSprite(left, right, up, down, frameCounter, ssNum, idleDecider, lastPressed, bomberID)
+g.createSprite(p1Left, p1Right, p1Up, p1Down, 'down', 0, spriteHeight1);
 
-
-
-
+// Player two
 g.createPlayer('blue', 760, 760, 15, 15, 2);
-// g.createSprite()
+let spriteHeight2 = 53;
+// let frameRate2 = (-g.playerArr[1].speed * 1.5) + 10;
+let p2Left = new Image();
+let p2Right = new Image();
+let p2Up = new Image();
+let p2Down = new Image();
+
+p2Left.src ="./Images/p2/p2WalkLeft.png";
+p2Right.src="./Images/p2/p2WalkRight.png";
+p2Up.src="./Images/p2/p2WalkUp.png";
+p2Down.src="./Images/p2/p2WalkDown.png";
+
+g.createSprite(p2Left, p2Right, p2Up, p2Down, 'down', 1, spriteHeight2);
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();
@@ -211,358 +229,41 @@ function mainLoop(){
     ctx.clearRect(0, 0, 750, 750);
     g.createMap();
 
-
-    var p1Right = new Image();
-    var p1Left = new Image();
-    var p1Up = new Image();
-    var p1Down = new Image();
-    var p1Death = new Image();
-    var p2Death = new Image();
-
-    
-    
-    p2Death.src="./Images/p2/p2Death.png";
-    p1Death.src="./Images/p1/p1Death.png";
-    p1Right.src="./Images/p1/p1WalkRight.png";
-    p1Left.src ="./Images/p1/p1WalkLeft.png";
-    p1Up.src="./Images/p1/p1WalkUp.png";
-    p1Down.src="./Images/p1/p1WalkDown.png";
     //Drawing Player
     for (let i = 0; i < g.playerArr.length; i++) {
         g.drawPlayer(g.playerArr[i]);
     }
-    if (playerOneDead) {
-        let spriteWidth = 64;
-        let spriteHeight = 50;
-        let spriteScale = 1.3;
-        let frameRate = 6;
-        let totalFrames = frameRate * 12;
-        if(!deathDone){
-            if(ssNum < 6){
-                if(frameCounter < totalFrames){
-                    ctx.drawImage(p1Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-                }
-            }else{
-                ctx.drawImage(p1Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerOneX - 22, playerOneY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-            }
 
-
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            deathDone = true;
-        }
-        frameCounter++;
-    }
-    if (playerTwoDead) {
-        let spriteWidth = 64;
-        let spriteHeight = 53;
-        let spriteScale = 1.3;
-        let frameRate = 6;
-        let totalFrames = frameRate * 12;
-        if(!deathDone2){
-            if(ssNum < 6){
-                if(frameCounter < totalFrames){
-                    ctx.drawImage(p2Death, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-                }
-            }else{
-                ctx.drawImage(p2Death, spriteWidth*5, 0, spriteWidth, spriteHeight, playerTwoX - 22, playerTwoY - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-            }
-
-
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            deathDone2 = true;
-        }
-        frameCounter++;
-    }
-
-
-
-    //P1 SPRITES
+    //PLAYER SPRITES
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-    let spriteWidth = 64;
-    let spriteHeight = 50;
-    let spriteScale = 1.3;
-    let frameRate = (-g.playerArr[0].speed * 1.5) + 10;
-    let totalFrames = frameRate * 8;
-
-    //P1 ANIMATIONS
-    //IDLE ANIMATION
-    function drawImgIdle(){
-        switch(lastPressed){
-            case "up":
-                idleDecider = p1Up;
-                break;
-            case "down":
-                idleDecider = p1Down;
-                break;
-            case "left":
-                idleDecider = p1Left;
-                break;
-            case "right":
-                idleDecider = p1Right;
-                break;
+    for (let i = 0; i < g.playerArr.length; i++) {
+        if (g.playerArr[i].moveLeft == true && g.playerArr[i].moveRight == true && g.playerArr[i].moveUp == true){
+            g.spriteArr[i].drawImgUp();
         }
-        if(frameCounter < totalFrames){
-            ctx.drawImage(idleDecider, 0, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
+        else if (g.playerArr[i].moveLeft == true && g.playerArr[i].moveRight == true && g.playerArr[i].moveDown == true){
+            g.spriteArr[i].drawImgDown()
+        }else if  
+            (  g.playerArr[i].moveLeft == true && g.playerArr[i].moveRight == true
+            || g.playerArr[i].moveUp == true && g.playerArr[i].moveDown == true
+            || g.playerArr[i].moveLeft == true && g.playerArr[i].moveRight == true && g.playerArr[i].moveUp == true && g.playerArr[i].moveDown == true
+            || g.playerArr[i].moveLeft == true && g.playerArr[i].moveRight == true && g.playerArr[i].moveUp == true && g.playerArr[i].moveDown == true
+            || g.playerArr[i].moveLeft == false && g.playerArr[i].moveRight == false && g.playerArr[i].moveUp == false && g.playerArr[i].moveDown == false
+        ){
+            g.spriteArr[i].drawImgIdle()
         }
-        if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
+        else if(g.playerArr[i].moveLeft == true){
+            g.spriteArr[i].drawImgLeft()
+        }else if(g.playerArr[i].moveRight == true){
+            g.spriteArr[i].drawImgRight()
+        }else if(g.playerArr[i].moveUp == true){
+            g.spriteArr[i].drawImgUp()
+        }else if(g.playerArr[i].moveDown == true){
+            g.spriteArr[i].drawImgDown()
         }
-        frameCounter++;
     }
-    //WALK RIGHT
-    function drawImgRight(){
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Right, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
-        }
-        frameCounter++;
-    }
-    //WALK LEFT
-    function drawImgLeft(){
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Left, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
-        }
-        frameCounter++;
-    }
-    //WALK UP
-    function drawImgUp(){
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Up, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
-        }
-        frameCounter++;
-    }
-    //WALK DOWN
-    function drawImgDown(){
-        if(frameCounter < totalFrames){
-            ctx.drawImage(p1Down, spriteWidth*ssNum, 0, spriteWidth, spriteHeight, g.playerArr[0].x - 22, g.playerArr[0].y - 34, spriteWidth*spriteScale, spriteHeight*spriteScale);
-        }
-        if(frameCounter % frameRate == 0){
-            ssNum++;
-        }
-        if(frameCounter == totalFrames - 1){
-            ssNum=0;
-            frameCounter = 0;
-        }
-        frameCounter++;
-    }
-    //END P1 ANIMATIONS
-
-    if (g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true){
-        drawImgUp()
-    }
-    else if (g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveDown == true){
-        drawImgDown()
-    }else if  
-        (  g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true
-        || g.playerArr[0].moveUp == true && g.playerArr[0].moveDown == true
-        || g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true && g.playerArr[0].moveDown == true
-        || g.playerArr[0].moveLeft == true && g.playerArr[0].moveRight == true && g.playerArr[0].moveUp == true && g.playerArr[0].moveDown == true
-        || g.playerArr[0].moveLeft == false && g.playerArr[0].moveRight == false && g.playerArr[0].moveUp == false && g.playerArr[0].moveDown == false
-    ){
-        drawImgIdle()
-    }
-    else if(g.playerArr[0].moveLeft == true){
-        drawImgLeft()
-    }else if(g.playerArr[0].moveRight == true){
-        drawImgRight()
-    }else if(g.playerArr[0].moveUp == true){
-        drawImgUp()
-    }else if(g.playerArr[0].moveDown == true){
-        drawImgDown()
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-    //P2 SPRITES
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-    var p2Right = new Image();
-    var p2Left = new Image();
-    var p2Up = new Image();
-    var p2Down = new Image();
-
-
-    p2Right.src="./Images/p2/p2WalkRight.png";
-    p2Left.src ="./Images/p2/p2WalkLeft.png";
-    p2Up.src="./Images/p2/p2WalkUp.png";
-    p2Down.src="./Images/p2/p2WalkDown.png"
-
-
-    let spriteWidth2 = 64;
-    let spriteHeight2 = 53;
-    let spriteScale2 = 1.3;
-    let frameRate2 = (-g.playerArr[1].speed * 1.5) + 10;
-    let totalFrames2 = frameRate2 * 8;
-
-    //P2 ANIMATIONS
-    //IDLE ANIMATION
-    function drawImgIdle2(){
-        switch(lastPressed2){
-            case "ArrowUp":
-                idleDecider2 = p2Up;
-                break;
-            case "ArrowDown":
-                idleDecider2 = p2Down;
-                break;
-            case "ArrowLeft":
-                idleDecider2 = p2Left;
-                break;
-            case "ArrowRight":
-                idleDecider2 = p2Right;
-                break;
-        }
-        if(frameCounter2 < totalFrames2){
-            ctx.drawImage(idleDecider2, 0, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
-        }
-        if(frameCounter2 == totalFrames2 - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
-        }
-        frameCounter2++;
-    }
-    //WALK RIGHT
-    function drawImgRight2(){
-        if(frameCounter2 < totalFrames2){
-            ctx.drawImage(p2Right, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
-        }
-        if(frameCounter2 % frameRate2 == 0){
-            ssNum2++;
-        }
-        if(frameCounter2 == totalFrames2 - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
-        }
-        frameCounter2++;
-    }
-    //WALK LEFT
-    function drawImgLeft2(){
-        if(frameCounter2 < totalFrames2){
-            ctx.drawImage(p2Left, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
-
-        }
-        if(frameCounter2 % frameRate2 == 0){
-            ssNum2++;
-        }
-        if(frameCounter2 == totalFrames2 - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
-        }
-        frameCounter2++;
-    }
-    //WALK UP
-    function drawImgUp2(){
-        if(frameCounter2 < totalFrames2){
-            ctx.drawImage(p2Up, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
-        }
-        if(frameCounter2 % frameRate2 == 0){
-            ssNum2++;
-        }
-        if(frameCounter2 == totalFrames2 - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
-        }
-        frameCounter2++;
-    }
-    //WALK DOWN
-    function drawImgDown2(){
-        if(frameCounter2 < totalFrames2){
-            ctx.drawImage(p2Down, spriteWidth2*ssNum2, 0, spriteWidth2, spriteHeight2, g.playerArr[1].x - 22, g.playerArr[1].y - 34, spriteWidth2*spriteScale2, spriteHeight2*spriteScale2);
-        }
-        if(frameCounter2 % frameRate2 == 0){
-            ssNum2++;
-        }
-        if(frameCounter2 == totalFrames2 - 1){
-            ssNum2=0;
-            frameCounter2 = 0;
-        }
-        frameCounter2++;
-    }
-    //END P2 ANIMATIONS
-
-    if (g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true){
-        drawImgUp2()
-    }
-    else if (g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveDown == true){
-        drawImgDown2()
-    }else if  
-        (  g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true
-        || g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
-        || g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
-        || g.playerArr[1].moveLeft == true && g.playerArr[1].moveRight == true && g.playerArr[1].moveUp == true && g.playerArr[1].moveDown == true
-        || g.playerArr[1].moveLeft == false && g.playerArr[1].moveRight == false && g.playerArr[1].moveUp == false && g.playerArr[1].moveDown == false
-    ){
-        drawImgIdle2()
-    }
-    else if(g.playerArr[1].moveLeft == true){
-        drawImgLeft2()
-    }else if(g.playerArr[1].moveRight == true){
-        drawImgRight2()
-    }else if(g.playerArr[1].moveUp == true){
-        drawImgUp2()
-    }else if(g.playerArr[1].moveDown == true){
-        drawImgDown2()
-    }
-
-    // // //DEATH CHECKS
-    // if(g.playerArr[0] !== ''){
-    //     g.playerArr[0].deathCheck();
-    // }
-    // if(g.playerArr[1] !== ''){
-    //     g.playerArr[1].deathCheck();
-    // }
-
-
-
-
-    //END P2
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
     //Loop this function 60fps
     requestAnimationFrame(mainLoop);
@@ -665,24 +366,24 @@ document.onkeyup = function(e){
         g.playerArr[1].moveDown = false;
         ssNum2 = 0;
         frameCounter2 = 0;
-        lastPressed2 = "ArrowDown";
+        lastPressed2 = "down";
     }
     if(e.key === "ArrowUp"){
         g.playerArr[1].moveUp = false;
         ssNum2 = 0;
         frameCounter2 = 0;
-        lastPressed2 = "ArrowUp";
+        lastPressed2 = "up";
     }
     if(e.key === "ArrowLeft"){
         g.playerArr[1].moveLeft = false;
         ssNum2 = 0;
         frameCounter2 = 0;
-        lastPressed2 = "ArrowLeft"
+        lastPressed2 = "left"
     }
     if(e.key === "ArrowRight"){
         g.playerArr[1].moveRight = false;
         ssNum2 = 0;
         frameCounter2 = 0;
-        lastPressed2 = "ArrowRight"
+        lastPressed2 = "right"
     }
 } //END PLAYER 1 COMMANDS
