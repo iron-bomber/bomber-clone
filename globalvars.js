@@ -7,8 +7,6 @@ let playerTwoY;
 // SPRITE VARS
 let lastPressed = 'down';
 let lastPressed2 = 'ArrowDown';
-let deathDone = false;
-let deathDone2 = false;
 
 const bombMap = [
     ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],

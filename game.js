@@ -37,8 +37,8 @@ class Game {
     }
 
     // Creates a sprite for each bomber
-    createSprite(left, right, up, down, lastPressed, bomberID, height) {
-        let bomberSprite = new Sprite(left, right, up, down, lastPressed, bomberID, height);
+    createSprite(left, right, up, down, death, lastPressed, bomberID, height) {
+        let bomberSprite = new Sprite(left, right, up, down, death, lastPressed, bomberID, height);
         this.spriteArr.push(bomberSprite);
     }
 
@@ -56,7 +56,7 @@ class Game {
                     ctx.drawImage(rock, 256, 128, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 } else if (bombMap[i][j] === 'rock') {
-                    ctx.drawImage(rock, 64, 64, 64, 64, xCoord, yCoord, 50, 50);
+                    ctx.drawImage(rock, 0, 128, 64, 64, xCoord, yCoord, 50, 50);
                     xCoord += 50;
                 }else if (typeof bombMap[i][j] === 'object') {
                     ctx.drawImage(rock, 128, 64, 64, 64, xCoord, yCoord, 50, 50);
@@ -108,13 +108,6 @@ class Game {
     }
 }
 
-// Death
-let p1Death = new Image();
-let p2Death = new Image();
-
-p2Death.src="./Images/p2/p2Death.png";
-p1Death.src="./Images/p1/p1Death.png";
-
 function mainLoop(){
     
     //GRID PLACER & MoveCheck
@@ -134,6 +127,12 @@ function mainLoop(){
     // for (let i = 0; i < g.playerArr.length; i++) {
     //     g.drawPlayer(g.playerArr[i]);
     // }
+    if (playerOneDead) {
+        g.spriteArr[0].drawDeath(playerOneX, playerOneY);
+    }
+    if (playerTwoDead) {
+        g.spriteArr[1].drawDeath(playerTwoX, playerTwoY);
+    }
 
     
     //PLAYER SPRITES
@@ -195,6 +194,7 @@ document.onkeypress = function(e){
     }
     // Drop bomb
     if(e.keyCode === 32){
+        e.preventDefault();
         if(g.playerArr[0].bombAmmo > 0){
             if (bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
                 // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
@@ -224,6 +224,7 @@ document.onkeydown = function(e){
             g.playerArr[1].moveRight = true;
         }
         if(e.keyCode === 16){
+            e.preventDefault();
             if(g.playerArr[1].bombAmmo > 0){
                 if (bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
                     let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower, bombIDs));
@@ -282,14 +283,18 @@ let p1Left = new Image();
 let p1Right = new Image();
 let p1Up = new Image();
 let p1Down = new Image();
+let p1Death = new Image();
+
 
 let spriteHeight1 = 50;
 p1Left.src ="./Images/p1/p1WalkLeft.png";
 p1Right.src="./Images/p1/p1WalkRight.png";
 p1Up.src="./Images/p1/p1WalkUp.png";
 p1Down.src="./Images/p1/p1WalkDown.png";
+p1Death.src="./Images/p1/p1Death.png";
 
-g.createSprite(p1Left, p1Right, p1Up, p1Down, 'down', 0, spriteHeight1);
+
+g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
 //Player two
 g.createPlayer('blue', 760, 760, 15, 15, 2);
 let spriteHeight2 = 53;
@@ -297,13 +302,18 @@ let p2Left = new Image();
 let p2Right = new Image();
 let p2Up = new Image();
 let p2Down = new Image();
+let p2Death = new Image();
 
+p2Death.src="./Images/p2/p2Death.png";
 p2Left.src ="./Images/p2/p2WalkLeft.png";
 p2Right.src="./Images/p2/p2WalkRight.png";
 p2Up.src="./Images/p2/p2WalkUp.png";
 p2Down.src="./Images/p2/p2WalkDown.png";
 
-g.createSprite(p2Left, p2Right, p2Up, p2Down, 'down', 1, spriteHeight2);
+g.createSprite(p2Left, p2Right, p2Up, p2Down, p2Death, 'down', 1, spriteHeight2);
 // Randomly generate rocks on map
 g.generateRocks();
 mainLoop();
+
+
+
