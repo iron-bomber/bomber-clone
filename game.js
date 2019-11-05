@@ -196,7 +196,7 @@ function mainLoop(){
         //EVENTUALLY GO TO SCORE SCREEN
         console.log('happ')
         ctx.font = "30px Arial";
-        ctx.fillText(`Player X Wins!`, 400, 400);
+        ctx.fillText(`Space to restart :)`, 350, 400);
         //////
     }
 
@@ -353,11 +353,13 @@ function initializeGame() {
     m = new BombMap();
     playerOneDead = false;
     playerTwoDead = false;
+    let p11,p12,p13,p14,p15,p21,p22,p23,p24,p25,p31,p32,p33,p34,p35,p41,p42,p43,p44,p45;
 
     g.createPlayer('red', 60, 75, 1, 1, 1);
-    g.createSprite(p4Left, p4Right, p4Up, p4Down, p4Death, 'down', 0, spriteHeight1);
+    spriteChooser();
+    g.createSprite(p11, p12, p13, p14, p15, 'down', 0, spriteHeight1);
     g.createPlayer('blue', 760, 760, 15, 15, 2);
-    g.createSprite(p3Left, p3Right, p3Up, p3Down, p3Death, 'down', 1, spriteHeight1);
+    g.createSprite(p21, p22, p23, p24, p25, 'down', 1, spriteHeight1);
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
@@ -545,6 +547,129 @@ class Startscreen{
     }
 }
 
+function spriteChooser(){
+    switch (s.p1.position){
+        case 1:
+            p11 = p1Left;
+            p12 = p1Right;
+            p13 = p1Up;
+            p14 = p1Down;
+            p15 = p1Death;
+            break;
+        case 2:
+            p11 = p2Left;
+            p12 = p2Right;
+            p13 = p2Up;
+            p14 = p2Down;
+            p15 = p2Death;
+            break;
+        case 3:
+            p11 = p3Left;
+            p12 = p3Right;
+            p13 = p3Up;
+            p14 = p3Down;
+            p15 = p3Death;
+            break;
+        case 4:
+            p11 = p4Left;
+            p12 = p4Right;
+            p13 = p4Up;
+            p14 = p4Down;
+            p15 = p4Death;
+            break;
+    }
+    switch (s.p2.position){
+        case 1:
+            p21 = p1Left;
+            p22 = p1Right;
+            p23 = p1Up;
+            p24 = p1Down;
+            p25 = p1Death;
+            break;
+        case 2:
+            p21 = p2Left;
+            p22 = p2Right;
+            p23 = p2Up;
+            p24 = p2Down;
+            p25 = p2Death;
+            break;
+        case 3:
+            p21 = p3Left;
+            p22 = p3Right;
+            p23 = p3Up;
+            p24 = p3Down;
+            p25 = p3Death;
+            break;
+        case 4:
+            p21 = p4Left;
+            p22 = p4Right;
+            p23 = p4Up;
+            p24 = p4Down;
+            p25 = p4Death;
+            break;
+    }
+    switch (s.p3.position){
+        case 1:
+            p31 = p1Left;
+            p32 = p1Right;
+            p33 = p1Up;
+            p34 = p1Down;
+            p35 = p1Death;
+            break;
+        case 2:
+            p31 = p2Left;
+            p32 = p2Right;
+            p33 = p2Up;
+            p34 = p2Down;
+            p35 = p2Death;
+            break;
+        case 3:
+            p31 = p3Left;
+            p32 = p3Right;
+            p33 = p3Up;
+            p34 = p3Down;
+            p35 = p3Death;
+            break;
+        case 4:
+            p31 = p4Left;
+            p32 = p4Right;
+            p33 = p4Up;
+            p34 = p4Down;
+            p35 = p4Death;
+            break;
+    }
+    switch (s.p4.position){
+        case 1:
+            p41 = p1Left;
+            p42 = p1Right;
+            p43 = p1Up;
+            p44 = p1Down;
+            p45 = p1Death;
+            break;
+        case 2:
+            p41 = p2Left;
+            p42 = p2Right;
+            p43 = p2Up;
+            p44 = p2Down;
+            p45 = p2Death;
+            break;
+        case 3:
+            p41 = p3Left;
+            p42 = p3Right;
+            p43 = p3Up;
+            p44 = p3Down;
+            p45 = p3Death;
+            break;
+        case 4:
+            p41 = p4Left;
+            p42 = p4Right;
+            p43 = p4Up;
+            p44 = p4Down;
+            p45 = p4Death;
+            break;
+    }
+}
+
 
 
 function startLoop(){
@@ -588,16 +713,3 @@ function restartSession(){
 let s = new Startscreen();
 startLoop();
 commands();
-
-////////////////////
-/////////////////////
-/////////////////////
-///////////////////
-//////////////////TEST THEORY CODE
-/*
-
-*/
-////////////////////
-/////////////////////
-/////////////////////
-///////////////////
