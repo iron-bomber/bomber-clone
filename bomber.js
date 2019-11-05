@@ -15,6 +15,7 @@ class Bomber{
         this.bombPower = 1;
         this.bombAmmo = 2;
         this.num = num - 1 ;
+        // this.isInvis = false;
     }
 
 
@@ -109,6 +110,10 @@ class Bomber{
                         }
                         m.bombMap[i][j] = 'free';
                     }
+                    // if(m.bombMap[i][j] === "invis"){
+                    //     this.isInvis++;
+                    //     m.bombMap[i][j] = 'free';
+                    // }
                     m.bomberLocations[i][j] = g.playerArr[this.num];
                     this.iGrid = i;
                     this.jGrid = j;

@@ -1,3 +1,6 @@
+let gameRunning = false;
+let gameComplete = false;
+let stopMainLoop = false;
 let playerOneDead = false;
 let playerTwoDead = false;
 let playerOneX;
@@ -23,9 +26,27 @@ const p1Right = new Image();
 const p1Up = new Image();
 const p1Down = new Image();
 const p1Death = new Image();
+let p1Icon = new Image();
+let p2Icon = new Image();
+let p3Icon = new Image();
+let p4Icon = new Image();
+let desertBG = new Image();
+let startBtn = new Image();
+let border = new Image();
+let border2 = new Image();
+
 
 
 const spriteHeight1 = 50;
+const iconWidth = 63;
+border2.src="./Images/border2.png"
+border.src="./Images/border.png"
+startBtn.src="./Images/start.png"
+desertBG.src="./Images/desert-bg.jpg"
+p1Icon.src="./Images/p1/p1Icon.png"
+p2Icon.src="./Images/p2/p2Icon.png"
+p3Icon.src="./Images/p3/p3WalkDown.png"
+p4Icon.src="./Images/p4/p4WalkDown.png"
 p1Left.src ="./Images/p1/p1WalkLeft.png";
 p1Right.src="./Images/p1/p1WalkRight.png";
 p1Up.src="./Images/p1/p1WalkUp.png";
@@ -48,3 +69,29 @@ p2Left.src ="./Images/p2/p2WalkLeft.png";
 p2Right.src="./Images/p2/p2WalkRight.png";
 p2Up.src="./Images/p2/p2WalkUp.png";
 p2Down.src="./Images/p2/p2WalkDown.png";
+
+//p3
+const p3Left = new Image();
+const p3Right = new Image();
+const p3Up = new Image();
+const p3Down = new Image();
+const p3Death = new Image();
+
+p3Death.src="./Images/p3/p3Death.png";
+p3Left.src ="./Images/p3/p3WalkLeft.png";
+p3Right.src="./Images/p3/p3WalkRight.png";
+p3Up.src="./Images/p3/p3WalkUp.png";
+p3Down.src="./Images/p3/p3WalkDown.png";
+
+//p4
+const p4Left = new Image();
+const p4Right = new Image();
+const p4Up = new Image();
+const p4Down = new Image();
+const p4Death = new Image();
+
+p4Death.src="./Images/p4/p4Death.png";
+p4Left.src ="./Images/p4/p4WalkLeft.png";
+p4Right.src="./Images/p4/p4WalkRight.png";
+p4Up.src="./Images/p4/p4WalkUp.png";
+p4Down.src="./Images/p4/p4WalkDown.png";

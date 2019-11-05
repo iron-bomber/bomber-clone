@@ -102,22 +102,35 @@ class Game {
 }
 
 function mainLoop(){
+
+    //RESETTING THE GAME
+    console.log(gameComplete)
     if (playersLeft === 1) {
         for(let i = 0; i < g.playerArr.length; i++) {
             if (typeof g.playerArr[i] === 'object') {
                 playerScores[`p${i+1}`] += 1;
                 for (let j = 0; j < numOfPlayers; j++) {
-                    console.log(`Player ${j+1} score: ${playerScores[`p${j+1}`]}`);
                 }
             }
         }
-
+        for(let i = 0; i < g.playerArr.length; i++) {
+            if (typeof g.playerArr[i] === 'object') {
+                if(playerScores[`p${i+1}`] > 0){
+                    gameComplete = true;
+                }
+            }
+        }
         playersLeft = 0;
         gameReset = true;
-        setTimeout(()=>{
-            initializeGame();
-        }, 5000)
-    }
+        if (gameComplete == true){
+            commands();
+        }else{
+            setTimeout(()=>{
+                initializeGame();
+            }, 5000)
+        }
+    }//END RESETTING
+
     //GRID PLACER & MoveCheck
     for (let i = 0; i < g.playerArr.length; i++) {
         if(g.playerArr[i] !== ''){
@@ -179,10 +192,18 @@ function mainLoop(){
             g.spriteArr[i].drawImgDown()
         }
     }
+    if(gameComplete == true){
+        //EVENTUALLY GO TO SCORE SCREEN
+        console.log('happ')
+        ctx.font = "30px Arial";
+        ctx.fillText(`Player X Wins!`, 400, 400);
+        //////
+    }
 
     //Loop this function 60fps
-    requestAnimationFrame(mainLoop);
-
+    if(!stopMainLoop){
+        requestAnimationFrame(mainLoop);
+    }
 }// END OF MAIN LOOP
 
 
@@ -193,117 +214,150 @@ function mainLoop(){
 // }s
 
 //PLAYER COMMANDS
-
-
-
-document.onkeypress = function(e){
-    if(e.key === "s" || e.key === "S"){
-        g.playerArr[0].moveDown = true;
-    }
-    if(e.key === "w" || e.key === "W"){
-        g.playerArr[0].moveUp = true;
-    }
-    if(e.key === "a" || e.key === "A"){
-        g.playerArr[0].moveLeft = true;
-    }
-    if(e.key === "d" || e.key === "D"){
-        g.playerArr[0].moveRight = true;
-    }
-    // Drop bomb
-    if(e.keyCode === 32){
-        e.preventDefault();
-        if(g.playerArr[0].bombAmmo > 0){
-            if (m.bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
-                // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
-                let newBomb = (new Bomb(g.playerArr[0], g.playerArr[0].iGrid, g.playerArr[0].jGrid, g.playerArr[0].bombPower, bombIDs));
-                bombIDs++;
-                newBomb.gridPlacer();
-                newBomb.timerExplode();
-                g.playerArr[0].bombAmmo -= 1;
+function commands(){
+    if(gameRunning == false){ //Startscreen commands
+        document.onkeypress = function(e){
+            if(e.key === "s" || e.key === "S"){
+                
+                s.movePosition(s.p1, "s");
             }
+            if(e.key === "w" || e.key === "W"){
+                s.movePosition(s.p1, "w");
+            }
+            if(e.key === "a" || e.key === "A"){
+                s.movePosition(s.p1, "a");
+            }
+            if(e.key === "d" || e.key === "D"){
+                s.movePosition(s.p1, "d");
+            }
+            // Drop bomb
+            if(e.keyCode === 32){
+                e.preventDefault();
+                s.movePosition(s.p1, "spacebar");
+            }
+            
         }
-    }
-    
-}
-
-document.onkeydown = function(e){
-        //P2
-        if(e.key === "ArrowDown"){
-            e.preventDefault()
-            g.playerArr[1].moveDown = true;
-        }
-        if(e.key === "ArrowUp"){
-            e.preventDefault()
-            g.playerArr[1].moveUp = true;
-        }
-        if(e.key === "ArrowLeft"){
-            g.playerArr[1].moveLeft = true;
-        }
-        if(e.key === "ArrowRight"){
-            g.playerArr[1].moveRight = true;
-        }
-        if(e.keyCode === 16){
-            e.preventDefault();
-            if(g.playerArr[1].bombAmmo > 0){
-                if (m.bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
-                    let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower, bombIDs));
-                    bombIDs++;
-                    newBomb.gridPlacer();
-                    newBomb.timerExplode();
-                    g.playerArr[1].bombAmmo -= 1;
+    }else{ //In game commands
+        document.onkeypress = function(e){
+            if(e.key === "s" || e.key === "S"){
+                g.playerArr[0].moveDown = true;
+            }
+            if(e.key === "w" || e.key === "W"){
+                g.playerArr[0].moveUp = true;
+            }
+            if(e.key === "a" || e.key === "A"){
+                g.playerArr[0].moveLeft = true;
+            }
+            if(e.key === "d" || e.key === "D"){
+                g.playerArr[0].moveRight = true;
+            }
+            // Drop bomb
+            if(!gameComplete){
+                if(e.keyCode === 32){
+                    e.preventDefault();
+                    if(g.playerArr[0].bombAmmo > 0){
+                        if (m.bombMap[g.playerArr[0].iGrid][g.playerArr[0].jGrid] === 'free') {
+                            // Create new bomb (player, player Y, player X, player bomb power, bomb ID)
+                            let newBomb = (new Bomb(g.playerArr[0], g.playerArr[0].iGrid, g.playerArr[0].jGrid, g.playerArr[0].bombPower, bombIDs));
+                            bombIDs++;
+                            newBomb.gridPlacer();
+                            newBomb.timerExplode();
+                            g.playerArr[0].bombAmmo -= 1;
+                        }
+                    }
+                }
+            }else{
+                if(e.keyCode === 32){
+                    e.preventDefault();
+                    restartSession();
                 }
             }
+            
         }
+        document.onkeydown = function(e){
+                //P2
+                if(e.key === "ArrowDown"){
+                    e.preventDefault()
+                    g.playerArr[1].moveDown = true;
+                }
+                if(e.key === "ArrowUp"){
+                    e.preventDefault()
+                    g.playerArr[1].moveUp = true;
+                }
+                if(e.key === "ArrowLeft"){
+                    g.playerArr[1].moveLeft = true;
+                }
+                if(e.key === "ArrowRight"){
+                    g.playerArr[1].moveRight = true;
+                }
+                if(e.keyCode === 16){
+                    e.preventDefault();
+                    if(g.playerArr[1].bombAmmo > 0){
+                        if (m.bombMap[g.playerArr[1].iGrid][g.playerArr[1].jGrid] === 'free') {
+                            let newBomb = (new Bomb(g.playerArr[1], g.playerArr[1].iGrid, g.playerArr[1].jGrid, g.playerArr[1].bombPower, bombIDs));
+                            bombIDs++;
+                            newBomb.gridPlacer();
+                            newBomb.timerExplode();
+                            g.playerArr[1].bombAmmo -= 1;
+                        }
+                    }
+                }
+        }
+    
+        document.onkeyup = function(e){
+            if(e.key === "s" || e.key === "S"){
+                g.playerArr[0].moveDown = false;
+                g.spriteArr[0].lastPressed = "down";
+            }
+            if(e.key === "w" || e.key === "W"){
+                g.playerArr[0].moveUp = false;
+                g.spriteArr[0].lastPressed = "up";
+            }
+            if(e.key === "a" || e.key === "A"){
+                g.playerArr[0].moveLeft = false;
+                g.spriteArr[0].lastPressed = "left"
+            }
+            if(e.key === "d" || e.key === "D"){
+                g.playerArr[0].moveRight = false;
+                g.spriteArr[0].lastPressed = "right"
+            }
+            
+            //P2
+            if(e.key === "ArrowDown"){
+                g.playerArr[1].moveDown = false;
+                g.spriteArr[1].lastPressed = "down";
+            }
+            if(e.key === "ArrowUp"){
+                g.playerArr[1].moveUp = false;
+                g.spriteArr[1].lastPressed = "up";
+            }
+            if(e.key === "ArrowLeft"){
+                g.playerArr[1].moveLeft = false;
+                g.spriteArr[1].lastPressed = "left"
+            }
+            if(e.key === "ArrowRight"){
+                g.playerArr[1].moveRight = false;
+                g.spriteArr[1].lastPressed = "right"
+            }
+        } //END PLAYER 1 COMMANDS
+    
+    }
 }
 
-document.onkeyup = function(e){
-    if(e.key === "s" || e.key === "S"){
-        g.playerArr[0].moveDown = false;
-        g.spriteArr[0].lastPressed = "down";
-    }
-    if(e.key === "w" || e.key === "W"){
-        g.playerArr[0].moveUp = false;
-        g.spriteArr[0].lastPressed = "up";
-    }
-    if(e.key === "a" || e.key === "A"){
-        g.playerArr[0].moveLeft = false;
-        g.spriteArr[0].lastPressed = "left"
-    }
-    if(e.key === "d" || e.key === "D"){
-        g.playerArr[0].moveRight = false;
-        g.spriteArr[0].lastPressed = "right"
-    }
-    
-    //P2
-    if(e.key === "ArrowDown"){
-        g.playerArr[1].moveDown = false;
-        g.spriteArr[1].lastPressed = "down";
-    }
-    if(e.key === "ArrowUp"){
-        g.playerArr[1].moveUp = false;
-        g.spriteArr[1].lastPressed = "up";
-    }
-    if(e.key === "ArrowLeft"){
-        g.playerArr[1].moveLeft = false;
-        g.spriteArr[1].lastPressed = "left"
-    }
-    if(e.key === "ArrowRight"){
-        g.playerArr[1].moveRight = false;
-        g.spriteArr[1].lastPressed = "right"
-    }
-} //END PLAYER 1 COMMANDS
 
 let g;
 let m;
 function initializeGame() {
+    console.log('initializeGame')
     g = new Game();
     m = new BombMap();
     playerOneDead = false;
     playerTwoDead = false;
+
     g.createPlayer('red', 60, 75, 1, 1, 1);
-    g.createSprite(p1Left, p1Right, p1Up, p1Down, p1Death, 'down', 0, spriteHeight1);
+    g.createSprite(p4Left, p4Right, p4Up, p4Down, p4Death, 'down', 0, spriteHeight1);
     g.createPlayer('blue', 760, 760, 15, 15, 2);
-    g.createSprite(p2Left, p2Right, p2Up, p2Down, p2Death, 'down', 1, spriteHeight2);
+    g.createSprite(p3Left, p3Right, p3Up, p3Down, p3Death, 'down', 1, spriteHeight1);
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
@@ -312,9 +366,238 @@ function initializeGame() {
     }, 2999);
 }
 
-initializeGame();
-mainLoop();
+function mainLoopable(){
+    console.log('mainloopable')
+    if(gameRunning == false){
+        stopMainLoop = false;
+        mainLoop();
+    }
+}
+
+function invisStartButton(){
+    document.querySelector('.startbutton').disabled = true;
+}
+
+class Startscreen{
+    constructor(){
+        this.p1 = {
+            exists: true,
+            position: 1
+        };
+        this.p2 = {
+            exists: false,
+            position: 1
+        };
+        this.p3 = {
+            exists: false,
+            position: 1
+        };
+        this.p4 = {
+            exists: false,
+            position: 1
+        };
+        this.sprite1 = true;
+        this.sprite2 = true;
+        this.sprite3 = true;
+        this.sprite4 = true;
+
+    }
+
+    movePosition(player, input){
+        
+        switch(input){
+            case "w":
+                
+                if(player.position == 3){
+                    player.position = 1;
+                }
+                if(player.position == 4){
+                    player.position = 2;
+                }
+                if(player.position == 5){
+                    player.position = 3;
+                }
+                if(player.position == 6){
+                    player.position = 4;
+                }
+                break;
+            case "a":
+                
+                if(player.position == 2){
+                    player.position = 1;
+                }
+                if(player.position == 4){
+                    player.position = 3;
+                }
+                if(player.position == 6){
+                    player.position = 5;
+                }
+                break;
+            case "s":
+                
+                if(player.position == 1){
+                    player.position = 3;
+                }
+                else if(player.position == 2){
+                    player.position = 4;
+                }
+                else if(player.position == 3){
+                    player.position = 5;
+                }
+                else if(player.position == 4){
+                    player.position = 6;
+                }
+                break;
+            case "d":
+                
+                if(player.position == 1){
+                    player.position = 2;
+                }
+                if(player.position == 3){
+                    player.position = 4;
+                }
+                if(player.position == 5){
+                    player.position = 6;
+                }
+                break;
+            case "spacebar":
+                
+                
+                if(player.exists == true){
+                    if(player.position == 1 && this.sprite1 == true){
+                        this.sprite1 = false;
+                        player.exists = false;
+                        //The Player.id gets that sprite
+                    }
+                    if(player.position == 2  && this.sprite2 == true){
+                        this.sprite2 = false;
+                        player.exists = false;
+                        //The Player.id gets that sprite
+                    }
+                    if(player.position == 3  && this.sprite3 == true){
+                        this.sprite3 = false;
+                        player.exists = false;
+                        //The Player.id gets that sprite
+                    }
+                    if(player.position == 4  && this.sprite4 == true){
+                        this.sprite4 = false;
+                        player.exists = false;
+                        //The Player.id gets that sprite
+                    }
+                }
+                break;
+        }
+    }
+
+    drawBorder(player){
+        
+        if(player.exists == true){
+            if(player.position == 1){
+                ctx.drawImage(border, 0, 0, 560, 939, 170, 125, 190, 180);//Top Left
+            }
+            if(player.position == 2){
+                ctx.drawImage(border, 0, 0, 560, 939, 468, 125, 190, 180);//Top Right
+            }
+            if(player.position == 3){
+                ctx.drawImage(border, 0, 0, 560, 939, 170, 325, 190, 180);//Bottom Left
+            }
+            if(player.position == 4){
+                ctx.drawImage(border, 0, 0, 560, 939, 468, 325, 190, 180);//Bottom Right
+            }
+            if(player.position == 5){
+                ctx.drawImage(border2, 0, 0, 940, 560, 268, 545, 320, 140);//Ready button
+            }
+            if(player.position == 6){
+                ctx.drawImage(border2, 0, 0, 940, 560, 268, 545, 320, 140);//Ready button
+            }
+        }
+    }
+
+    drawIcons(){
+        if(this.sprite1){
+            ctx.drawImage(p1Icon, 0, 0, iconWidth, spriteHeight1, 200, 150, 150, 130);
+        }else{
+            ctx.globalAlpha = .5;
+            ctx.drawImage(p1Icon, 0, 0, iconWidth, spriteHeight1, 200, 150, 150, 130);
+            ctx.globalAlpha = 1;
+        }
+        if(this.sprite2){
+            ctx.drawImage(p2Icon, 0, 0, iconWidth, spriteHeight2, 505, 150, 150, 130);
+        }else{
+            ctx.globalAlpha = .5;
+            ctx.drawImage(p2Icon, 0, 0, iconWidth, spriteHeight2, 505, 150, 150, 130);
+            ctx.globalAlpha = 1;
+        }
+        if(this.sprite3){
+            ctx.drawImage(p3Icon, 0, 0, iconWidth, spriteHeight1, 205, 350, 150, 130);
+        }else{
+            ctx.globalAlpha = .5;
+            ctx.drawImage(p3Icon, 0, 0, iconWidth, spriteHeight1, 205, 350, 150, 130);
+            ctx.globalAlpha = 1;
+        }
+        if(this.sprite4){
+            ctx.drawImage(p4Icon, 0, 0, iconWidth, spriteHeight1, 500, 350, 150, 130);
+        }else{
+            ctx.globalAlpha = .5;
+            ctx.drawImage(p4Icon, 0, 0, iconWidth, spriteHeight1, 500, 350, 150, 130);
+            ctx.globalAlpha = 1;
+        }
+    }
+}
 
 
 
+function startLoop(){
+    console.log('start loop')
+    ctx.clearRect(0, 0, 850, 850);
+    ctx.drawImage(desertBG, 0, 0, 750, 992, 0, 0, 850, 850);
 
+    //Draw Icons
+    s.drawIcons()
+
+    //Draw player borders
+    for(let i = 0; i < 4; i++){
+        s.drawBorder(s[`p${i+1}`]);
+        // s.drawBorder(s.p4)
+        
+    }
+    console.log(gameRunning)
+    
+    //Draw start button
+    ctx.drawImage(startBtn, 0, 0, 380, 170, 270, 550, 300, 130);
+    if(gameRunning == false){
+        requestAnimationFrame(startLoop);
+    }
+}
+
+function restartSession(){
+    for(let i = 0; i < g.playerArr.length; i++) {
+        
+        playerScores[`p${i+1}`] = 0;
+        
+    }
+    s = new Startscreen();
+    gameRunning = false;
+    gameComplete = false;
+    stopMainLoop = true;
+    document.querySelector('.startbutton').disabled = false;
+    startLoop();
+    commands();
+}
+
+let s = new Startscreen();
+startLoop();
+commands();
+
+////////////////////
+/////////////////////
+/////////////////////
+///////////////////
+//////////////////TEST THEORY CODE
+/*
+
+*/
+////////////////////
+/////////////////////
+/////////////////////
+///////////////////

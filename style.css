@@ -20,7 +20,7 @@ body{
 .main-game-container{
     width: 850px;
     height: 850px;
-    transform: scale(0.94);
+    transform: scale(0.8);
 }
 
 .right {
@@ -108,8 +108,4 @@ body{
 
 .modal-header{
     text-align: center;
-}
-
-canvas {
-    transform: scale(0.94);
 }
