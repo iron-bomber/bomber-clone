@@ -216,7 +216,7 @@ function mainLoop(){
 //PLAYER COMMANDS
 function commands(){
     if(gameRunning == false){ //Startscreen commands
-        document.onkeypress = function(e){
+        document.onkeydown = function(e){
             if(e.key === "s" || e.key === "S"){
                 
                 s.movePosition(s.p1, "s");
@@ -234,6 +234,25 @@ function commands(){
             if(e.keyCode === 32){
                 e.preventDefault();
                 s.movePosition(s.p1, "spacebar");
+            }
+            if(e.key === "ArrowDown"){
+                e.preventDefault()
+                s.movePosition(s.p2, "s");
+                console.log('p2 s')
+            }
+            if(e.key === "ArrowUp"){
+                e.preventDefault()
+                s.movePosition(s.p2, "w");
+            }
+            if(e.key === "ArrowLeft"){
+                s.movePosition(s.p2, "a");
+            }
+            if(e.key === "ArrowRight"){
+                s.movePosition(s.p2, "d");
+            }
+            if(e.keyCode === 16){
+                e.preventDefault();
+                s.movePosition(s.p2, "spacebar");
             }
             
         }
@@ -353,13 +372,13 @@ function initializeGame() {
     m = new BombMap();
     playerOneDead = false;
     playerTwoDead = false;
-    let p11,p12,p13,p14,p15,p21,p22,p23,p24,p25,p31,p32,p33,p34,p35,p41,p42,p43,p44,p45;
-
-    g.createPlayer('red', 60, 75, 1, 1, 1);
+    
     spriteChooser();
+    g.createPlayer('red', 60, 75, 1, 1, 1);
+    console.log(p11, p12, p13, p14, p15)
     g.createSprite(p11, p12, p13, p14, p15, 'down', 0, spriteHeight1);
     g.createPlayer('blue', 760, 760, 15, 15, 2);
-    g.createSprite(p21, p22, p23, p24, p25, 'down', 1, spriteHeight1);
+    g.createSprite(p21, p22, p23, p24, p25, 'down', 1, spriteHeight2);
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
@@ -387,7 +406,7 @@ class Startscreen{
             position: 1
         };
         this.p2 = {
-            exists: false,
+            exists: true,
             position: 1
         };
         this.p3 = {
@@ -548,6 +567,7 @@ class Startscreen{
 }
 
 function spriteChooser(){
+    console.log('choosing')
     switch (s.p1.position){
         case 1:
             p11 = p1Left;

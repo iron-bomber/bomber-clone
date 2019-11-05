@@ -15,7 +15,7 @@ let gameReset = false;
 let lastPressed = 'down';
 let lastPressed2 = 'ArrowDown';
 const ctx = document.getElementById('main-game-board').getContext('2d');
-// ctx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 
 let bombIDs = 0;
 
@@ -95,3 +95,24 @@ p4Left.src ="./Images/p4/p4WalkLeft.png";
 p4Right.src="./Images/p4/p4WalkRight.png";
 p4Up.src="./Images/p4/p4WalkUp.png";
 p4Down.src="./Images/p4/p4WalkDown.png";
+
+let p11
+let p12;
+let p13;
+let p14;
+let p15;
+let p21;
+let p22;
+let p23;
+let p24;
+let p25;
+let p31;
+let p32;
+let p33;
+let p34;
+let p35;
+let p41;
+let p42;
+let p43;
+let p44;
+let p45;
