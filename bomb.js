@@ -209,7 +209,7 @@ class Bomb {
     timerExplode () {
         setTimeout(() => {
             // Explodes the bomb if it hasn't yet been triggered by another
-            if (!this.exploding) {
+            if (!this.exploding && !gameReset) {
                 this.explode();
                 this.exploding = true;
             }

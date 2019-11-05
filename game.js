@@ -102,8 +102,6 @@ class Game {
 }
 
 function mainLoop(){
-
-    console.log(playersLeft)
     if (playersLeft === 1) {
         for(let i = 0; i < g.playerArr.length; i++) {
             if (typeof g.playerArr[i] === 'object') {
@@ -115,6 +113,7 @@ function mainLoop(){
         }
 
         playersLeft = 0;
+        gameReset = true;
         setTimeout(()=>{
             initializeGame();
         }, 5000)
@@ -131,6 +130,12 @@ function mainLoop(){
     //Clear canvas
     ctx.clearRect(0, 0, 750, 750);
     g.createMap();
+    // Updates player attributes
+    for (let i = 0; i < g.playerArr.length; i++) {
+        document.getElementById(`p${i+1}-pwr`).innerText = `Bomb Power: ${g.playerArr[i].bombPower}`;
+        document.getElementById(`p${i+1}-bmb`).innerText = `Total Bombs: ${g.playerArr[i].bombAmmo}`;
+        document.getElementById(`p${i+1}-spd`).innerText = `Speed: ${g.playerArr[i].speed}`;
+    }
 
     //Drawing Player
     // for (let i = 0; i < g.playerArr.length; i++) {
@@ -302,6 +307,9 @@ function initializeGame() {
     numOfPlayers = g.playerArr.length;
     playersLeft = g.playerArr.length;
     g.generateRocks();
+    setTimeout(() => {
+        gameReset = false;
+    }, 2999);
 }
 
 initializeGame();
