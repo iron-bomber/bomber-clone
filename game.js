@@ -23,7 +23,6 @@ class Game {
                 }
             }
         }
-
     }
     // Creates bomber and places him in bomber array
     createPlayer(color, x, y, iGrid, jGrid, num) {
@@ -235,6 +234,8 @@ function commands(){
                 e.preventDefault();
                 s.movePosition(s.p1, "spacebar");
             }
+
+            //P2
             if(e.key === "ArrowDown"){
                 e.preventDefault()
                 s.movePosition(s.p2, "s");
@@ -372,7 +373,6 @@ function initializeGame() {
     m = new BombMap();
     playerOneDead = false;
     playerTwoDead = false;
-    
     spriteChooser();
     g.createPlayer('red', 60, 75, 1, 1, 1);
     console.log(p11, p12, p13, p14, p15)
@@ -403,19 +403,23 @@ class Startscreen{
     constructor(){
         this.p1 = {
             exists: true,
-            position: 1
+            position: 1,
+            sprite: 1
         };
         this.p2 = {
             exists: true,
-            position: 1
+            position: 1,
+            sprite: 1
         };
         this.p3 = {
             exists: false,
-            position: 1
+            position: 1,
+            sprite: 1
         };
         this.p4 = {
             exists: false,
-            position: 1
+            position: 1,
+            sprite: 1
         };
         this.sprite1 = true;
         this.sprite2 = true;
@@ -481,29 +485,45 @@ class Startscreen{
                     player.position = 6;
                 }
                 break;
+            
             case "spacebar":
-                
                 
                 if(player.exists == true){
                     if(player.position == 1 && this.sprite1 == true){
                         this.sprite1 = false;
-                        player.exists = false;
+                        player.sprite = 1;
+                        // player.exists = false;
                         //The Player.id gets that sprite
                     }
                     if(player.position == 2  && this.sprite2 == true){
                         this.sprite2 = false;
-                        player.exists = false;
+                        player.sprite = 2;
+                        // player.exists = false;
                         //The Player.id gets that sprite
                     }
                     if(player.position == 3  && this.sprite3 == true){
                         this.sprite3 = false;
-                        player.exists = false;
+                        player.sprite = 3;
+                        // player.exists = false;
                         //The Player.id gets that sprite
                     }
                     if(player.position == 4  && this.sprite4 == true){
                         this.sprite4 = false;
-                        player.exists = false;
+                        player.sprite = 4;
+                        // player.exists = false;
                         //The Player.id gets that sprite
+                    }
+                    if(player.position == 5){
+                        initializeGame(); 
+                        mainLoopable(); 
+                        gameRunning = true; 
+                        commands();
+                    }
+                    if(player.position == 6){
+                        initializeGame(); 
+                        mainLoopable(); 
+                        gameRunning = true; 
+                        commands();
                     }
                 }
                 break;
@@ -568,7 +588,7 @@ class Startscreen{
 
 function spriteChooser(){
     console.log('choosing')
-    switch (s.p1.position){
+    switch (s.p1.sprite){
         case 1:
             p11 = p1Left;
             p12 = p1Right;
@@ -598,7 +618,7 @@ function spriteChooser(){
             p15 = p4Death;
             break;
     }
-    switch (s.p2.position){
+    switch (s.p2.sprite){
         case 1:
             p21 = p1Left;
             p22 = p1Right;
@@ -628,7 +648,7 @@ function spriteChooser(){
             p25 = p4Death;
             break;
     }
-    switch (s.p3.position){
+    switch (s.p3.sprite){
         case 1:
             p31 = p1Left;
             p32 = p1Right;
@@ -658,7 +678,7 @@ function spriteChooser(){
             p35 = p4Death;
             break;
     }
-    switch (s.p4.position){
+    switch (s.p4.sprite){
         case 1:
             p41 = p1Left;
             p42 = p1Right;
